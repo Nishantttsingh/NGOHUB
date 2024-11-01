@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You Message</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: linear-gradient(to bottom right, #ff347b, #18f8f8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .thank-you-message {
+            background-color: #a3e5ef;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 600px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .thank-you-message h1 {
+            font-size: 28px;
+            color: #fb2d7c;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .thank-you-message p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .home-button {
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            color: white;
+            background-color: #5e2b91;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .home-button:hover {
+            background-color: #7e4cbb;
+        }
+
+        .time-pass {
+            font-weight: bold;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="home-button" onclick="location.href='home.html'">HOME</button>
+        <div class="thank-you-message">
+            <p class="time-pass">Thank you for taking a step forward!</p>
+            <p class="time-pass">You’ll now receive daily updates about our workshops, campaigns, and outreach efforts directly to your email. Your involvement can make a huge difference in the world!</p>
+        </div>
+    </div>
+</body>
+</html>

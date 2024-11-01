@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Services</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: white;
+        }
+
+        .category {
+            font-size: 18px;
+            color: #ffffff;
+            margin-bottom: 50px;
+        }
+
+        .services {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .service {
+            width: 220px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .service img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .header {
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            padding: 40px 0;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .service-button,
+        .home-button {
+            background-color: #ff758c;
+            color: white;
+            height: 50px;
+            width: 200px;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .service-button:hover,
+        .home-button:hover {
+            background-color: #ff4d6d;
+        }
+
+        .home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .service-button a, 
+        .home-button a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="home-button"><a href="{{ url_for('services') }}">Services</a></button>
+
+    <div class="container">
+        <div class="header">
+            <h1>We Offer Best Services</h1>
+            <p class="category">CATEGORY</p>
+        </div>
+        <div class="services">
+            <div class="service">
+                <img src="{{ url_for('static', filename='images/community.jpg') }}" alt="Community Outreach">
+                <button class="service-button"><a href="{{ url_for('servicesform') }}">COMMUNITY OUTREACH</a></button>
+            </div>
+            <div class="service">
+                <img src="{{ url_for('static', filename='images/educationalwork.jpg') }}" alt="Educational Workshops">
+                <button class="service-button"><a href="{{ url_for('servicesform') }}">EDUCATIONAL WORKSHOPS</a></button>
+            </div>
+            <div class="service">
+                <img src="{{ url_for('static', filename='images/health.jpg') }}" alt="Health and Wellness">
+                <button class="service-button"><a href="{{ url_for('servicesform') }}">HEALTH AND WELLNESS</a></button>
+            </div>
+            <div class="service">
+                <img src="{{ url_for('static', filename='images/advocacy.jpg') }}" alt="Advocacy">
+                <button class="service-button"><a href="{{ url_for('servicesform') }}">ADVOCACY</a></button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

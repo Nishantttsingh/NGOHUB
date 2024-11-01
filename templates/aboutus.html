@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Full-page background similar to the home page */
+        .bg-image {
+    background-image: url('../static/images/hands.jpg'); /* Adjusted path */
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    position: relative;
+    filter: brightness(0.85);
+}
+
+        /* Container styling */
+        .container {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            padding: 50px;
+         /* Slight transparency */
+            border-radius: 10px;
+            width: 80%;
+            max-width: 1000px;
+            color: #333;
+        }
+
+        header h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: #35cfc5;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Section styling */
+        section {
+            margin: 30px 0;
+        }
+
+        section h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #2d2d2d;
+        }
+
+        section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Vision and Mission cards */
+        .vision-mission {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
+        }
+
+        .vision, .mission {
+            
+            border-radius: 10px;
+            padding: 20px;
+            width: 45%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        /* Team section */
+        .team-card {
+            display: inline-block;
+            margin: 20px;
+            text-align: center;
+        }
+
+        .team-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .team-card p {
+            font-size: 16px;
+            color: #333;
+            
+        }
+
+        .team-card strong {
+            font-size: 18px;
+            color: #2d2d2d;
+
+        }
+
+        /* Button styling */
+        .go-home {
+            background-color: #ff6b81;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-decoration: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .go-home a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .meet-team{
+            font-weight: bolder;
+            font-size:50px;
+            padding-top: 15px;
+        }
+        .para-design{
+
+            font-weight: bold;
+            color:black;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="bg-image">
+        <a class="go-home" href="{{ url_for('home') }}"> <i class="fas fa-home"></i> HOME</a>
+
+
+        <div class="container">
+            <header>
+                <h1>About Us</h1>
+            </header>
+
+            <section class="about-section">
+                <h2>Who We Are</h2>
+                <p class="para-design">
+                    Welcome to The NGO Hub! Our organization is dedicated to empowering communities by providing essential resources and support. We believe in the power of unity and compassion to uplift those in need. From providing clothes, food, and educational resources to organizing charitable activities, we aim to create a positive impact on society.
+                </p>
+            </section>
+
+            <section class="vision-mission">
+                <div class="vision">
+                    <h2>Our Vision</h2>
+                    <p class="para-design">
+                        Our vision is a world where every individual has access to the basic necessities of life—food, clothing, and education. We aim to create a society where the less fortunate are supported through acts of kindness and charitable initiatives.
+                    </p>
+                </div>
+
+                <div class="mission">
+                    <h2>Our Mission</h2>
+                    <p class="para-design">
+                        Our mission is to provide continuous aid to those in need by fostering a culture of giving. Through strategic partnerships, community efforts, and volunteer work, we aim to collect and distribute essential items to the underprivileged. Together, we hope to bridge the gap between those who have and those who need.
+                    </p>
+                </div>
+            </section>
+
+            <section class="team-section">
+                <p class="meet-team">Meet Our Team</p>
+                <p>
+                    Our team consists of passionate individuals who are dedicated to making a difference. From our volunteers on the ground to our leaders planning each project, every member plays a crucial role in making our vision a reality.
+                </p>
+                <div class="team-card">
+                    <p><strong>Team</strong></p>
+                    <p>Clarissa Dsouza<br>Sean Andrades<br> Nishant Singh</p>
+                </div>
+                <div class="team-card">
+                    <p><strong> Mentor</strong></p>
+                    <p>Nidhi Jha</p>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
