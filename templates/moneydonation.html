@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DONATE</title>
+    <style>
+        .home-button {
+            background-color: #ed1ad1;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 20px;
+            text-decoration: none;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        /* Basic reset and font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Background */
+        body {
+            background: linear-gradient(to bottom right, #ff9ff3, #00c9ff); /* Pink to blue gradient */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+            font-family: 'Courier New', Courier, monospace;
+            text-align: center;
+        
+        
+        }
+
+        /* Header styling */
+        h1 {
+            color: #4a5568; /* Dark grey for a softer look */
+            text-align: center;
+            font-size: 50px;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        /* Image container styling */
+        .image-container {
+            background-color: #ffffff; /* White background for contrast */
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Image styling */
+        .image img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+
+        /* Subtitle */
+        .subtitle {
+            padding-bottom: 30px;
+            color: #718096; /* Soft grey */
+            font-size: 1.1em;
+            text-align: center;
+            margin-top: 10px;
+            font-size:25px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    
+    <button class="home-button" onclick="location.href='home.html'">HOME</button>
+    <h1>Your Donation Will Make a Huge Difference</h1>
+    <p class="subtitle">Scan the code below to contribute and bring a smile!</p>
+    
+    <div class="image-container">
+        <div class="image">
+            <img src="{{ url_for('static', filename='images/scanner.jpg') }}" alt="DONATE HERE">
+        </div>
+    </div>
+</body>
+</html>
