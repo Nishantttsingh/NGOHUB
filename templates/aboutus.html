@@ -18,16 +18,16 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* Full-page background similar to the home page */
+        /* Full-page background */
         .bg-image {
-    background-image: url('../static/images/hands.jpg'); /* Adjusted path */
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
-    position: relative;
-    filter: brightness(0.85);
-}
+            background-image: url('../static/images/hands.jpg'); /* Adjusted path */
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100%;
+            position: relative;
+            filter: brightness(0.85);
+        }
 
         /* Container styling */
         .container {
@@ -37,7 +37,6 @@
             transform: translateX(-50%);
             text-align: center;
             padding: 50px;
-         /* Slight transparency */
             border-radius: 10px;
             width: 80%;
             max-width: 1000px;
@@ -80,7 +79,6 @@
         }
 
         .vision, .mission {
-            
             border-radius: 10px;
             padding: 20px;
             width: 45%;
@@ -88,31 +86,30 @@
             color: white;
         }
 
-        /* Team section */
-        .team-card {
-            display: inline-block;
-            margin: 20px;
+        /* Team and Mentor section */
+        .team-section {
             text-align: center;
+            margin-top: 40px;
         }
 
-        .team-card img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 10px;
+        .meet-team {
+            font-weight: bold;
+            font-size: 32px;
+            padding-top: 15px;
         }
 
-        .team-card p {
-            font-size: 16px;
-            color: #333;
-            
-        }
-
-        .team-card strong {
+        .team-info {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
             font-size: 18px;
-            color: #2d2d2d;
+            font-weight: bold;
+            color: #333;
+        }
 
+        .team-card {
+            text-align: center;
         }
 
         /* Button styling */
@@ -135,16 +132,10 @@
             color: white;
             text-decoration: none;
         }
-
-        .meet-team{
-            font-weight: bolder;
-            font-size:50px;
-            padding-top: 15px;
-        }
-        .para-design{
-
+        
+        .para-design {
             font-weight: bold;
-            color:black;
+            color: black;
         }
 
     </style>
@@ -152,7 +143,6 @@
 <body>
     <div class="bg-image">
         <a class="go-home" href="{{ url_for('home') }}"> <i class="fas fa-home"></i> HOME</a>
-
 
         <div class="container">
             <header>
@@ -187,13 +177,15 @@
                 <p>
                     Our team consists of passionate individuals who are dedicated to making a difference. From our volunteers on the ground to our leaders planning each project, every member plays a crucial role in making our vision a reality.
                 </p>
-                <div class="team-card">
-                    <p><strong>Team</strong></p>
-                    <p>Clarissa Dsouza<br>Sean Andrades<br> Nishant Singh</p>
-                </div>
-                <div class="team-card">
-                    <p><strong> Mentor</strong></p>
-                    <p>Nidhi Jha</p>
+                <div class="team-info">
+                    <div class="team-card">
+                        <strong>Our Team</strong>
+                        <p>Clarissa Dsouza<br>Sean Andrades<br> Nishant Singh</p>
+                    </div>
+                    <div class="team-card">
+                        <strong>Our Mentor</strong>
+                        <p>Nidhi Jha</p>
+                    </div>
                 </div>
             </section>
         </div>
