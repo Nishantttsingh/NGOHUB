@@ -105,35 +105,47 @@
         .donation-info {
             font-weight: bold;
         }
+
+        .pay-button {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sub {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <a href="{{ url_for('home') }}" class="home-button">HOME</a>
+    <a href="home.html" class="home-button">HOME</a>
 
     <div class="form-container">
-        <form action="{{ url_for('donate_form') }}" method="post" enctype="multipart/form-data">
-            <label for="full_name">Full Name*</label>
-            <input type="text" id="full_name" name="full_name" placeholder="Enter your name" required>
-            
-            <label for="item_description">Item Description</label>
-            <textarea id="item_description" name="item_description" placeholder="Enter a detailed description"></textarea>
-            
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <p class="donation-info">DONATION INFORMATION FORM</p>
+
+            <label for="name">Full Name*</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+            <label for="description">Item Description</label>
+            <textarea id="description" name="description" placeholder="Enter a detailed description"></textarea>
+
             <label for="address">Address*</label>
             <input type="text" id="address" name="address" placeholder="Enter your address" required>
-            
+
             <label for="email">Email*</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            
+
             <label for="phone">Phone*</label>
             <input type="tel" id="phone" name="phone" placeholder="Enter your number" required>
-            
-            <label for="image_file">Image File*</label>
-            <input type="file" id="image_file" name="image_file" accept="image/*" required>
-            
-            <button type="submit">SUBMIT</button>
+
+            <label for="image">Image File*</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button type="submit"><a class="pay-button" href="donatety.html">SUBMIT</a></button>
         </form>
-        
+        <a class="pay-button" href="pay.html"><button class="sub" type="submit">DONATE</button></a>
+
     </div>
 
 </body>

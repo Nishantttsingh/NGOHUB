@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">  
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate For NGOs</title>
     <style>
@@ -12,31 +12,28 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom right, #ff9ff3, #00c9ff);
+            font-family: 'Courier New', Courier, monospace;
+            background: linear-gradient(to bottom right, #ff9ff3, #00c9ff); /* Pink to blue gradient */
+            text-align: center;
             color: #333;
         }
 
         .container {
-            padding: 50px 20px;
-            text-align: center;
+            padding: 50px;
         }
 
-        /* Home button styling */
         .home-button {
-            position: fixed;
-            top: 20px;
-            left: 20px;
             background-color: #ff9ff3;
             color: #fff;
             border: none;
             border-radius: 5px;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
+            padding: 15px 30px;
+            font-size: 18px;
             cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin: 20px;
             text-decoration: none;
-            transition: background-color 0.3s ease;
         }
 
         .home-button:hover {
@@ -44,7 +41,7 @@
         }
 
         .header h4 {
-            font-size: 28px;
+            font-size: 24px;
             color: #fff;
             margin-bottom: 10px;
         }
@@ -60,22 +57,16 @@
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
-            padding-top: 20px;
         }
 
         .ngo-card {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.8);
             border-radius: 10px;
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 260px;
+            width: 250px;
             text-align: center;
             margin-top: 30px;
-            transition: transform 0.3s ease;
-        }
-
-        .ngo-card:hover {
-            transform: scale(1.05);
         }
 
         .ngo-card img {
@@ -86,7 +77,7 @@
         }
 
         .ngo-card p {
-            font-size: 20px;
+            font-size: 18px;
             margin-top: 15px;
             color: #333;
             font-weight: bold;
@@ -94,19 +85,21 @@
 
         .donate-button {
             margin-top: 15px;
-            padding: 12px 20px;
+            padding: 15px 25px;
             border: none;
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
             text-decoration: none;
             color: white;
-            background-color: #FF6B6B;
-            transition: background-color 0.3s ease;
         }
 
+        .donate-button.teal { background-color: #00C9B7; }
+        .donate-button.orange { background-color: #FF9F43; }
+        .donate-button.red { background-color: #FF6B6B; }
+
         .donate-button:hover {
-            background-color: #ff5a5a;
+            opacity: 0.9;
         }
 
         /* Links inside buttons */
@@ -119,7 +112,7 @@
 </head>
 <body>
 
-    <a href="{{ url_for('home') }}" class="home-button">HOME</a>
+    <button class="home-button" onclick="location.href='home.html'">HOME</button>
     
     <div class="container">
         <div class="header">
@@ -131,25 +124,25 @@
             <div class="ngo-card">
                 <img src="https://www.dailypioneer.com/uploads/2017/story/images/big/191286_1.jpg" alt="Children">
                 <p>CHILDREN</p>
-                <button class="donate-button"><a href="{{ url_for('donate_form') }}">Donate</a></button>
+                <button class="donate-button teal"><a href="donate-form.html">Donate</a></button>
             </div>
 
             <div class="ngo-card">
-                <img src="https://www.ashleycourtcare.co.uk/wp-content/uploads/2018/10/Senior-and-Elderly-Care-Living-Options.jpg" alt="Elderly">
+                <img src="oldngo.jpg" alt="Elderly">
                 <p>ELDERLY</p>
-                <button class="donate-button"><a href="{{ url_for('donate_form') }}">Donate</a></button>
+                <button class="donate-button orange"><a href="donate-form.html">Donate</a></button>
             </div>
 
             <div class="ngo-card">
-                <img src="https://i0.wp.com/wishesandblessings.net/blog/wp-content/uploads/2019/06/DSC_0068.jpg?w=2340&ssl=1s" alt="Sick">
+                <img src="sickngo.jpg" alt="Sick">
                 <p>SICK</p>
-                <button class="donate-button"><a href="{{ url_for('donate_form') }}">Donate</a></button>
+                <button class="donate-button red"><a href="donate-form.html">Donate</a></button>
             </div>
 
             <div class="ngo-card">
-                <img src="https://www.easyfundraising.org.uk/blog/wp-content/uploads/2023/08/Top-Fundraising-Ideas-for-Animal-Shelters-and-Rescues-1.png" alt="Animals">
+                <img src="animals.jpg" alt="Animals">
                 <p>ANIMALS</p>
-                <button class="donate-button"><a href="{{ url_for('donate_form') }}">Donate</a></button>
+                <button class="donate-button teal"><a href="donate-form.html">Donate</a></button>
             </div>
         </div>
     </div>
