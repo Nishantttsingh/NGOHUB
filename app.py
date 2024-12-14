@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = "A1b2C3d4E5!@#F6g7H8"  # Replace with your secure key
+app.secret_key = "A1b2C3d4E5!@#F6g7H8"  
 
 # Database configuration
 db_config = {
     'host': 'localhost',
     'user': 'root',
-    'password': 'PushpaRaj2207',
+    'password': '************',
     'database': 'NGOHUB'
 }
 
