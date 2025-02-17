@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 
 app = Flask(__name__)
-app.secret_key = "A1b2C3d4E5!@#F6g7H8"  
+app.secret_key = "************"  
 
 # Database configuration
 db_config = {
