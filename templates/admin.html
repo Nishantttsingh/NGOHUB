@@ -3,72 +3,1428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
+    <title>Admin Dashboard - NGO-HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #f9f7f7;
+        }
+
         .container {
-            max-width: 1000px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dbe2ef 0%, #f9f7f7 50%, #dbe2ef 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        h1 {
+
+        .pastel-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .pastel-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+        }
+
+        .circle-1 {
+            width: 500px;
+            height: 500px;
+            background: #a8d8ea;
+            top: -200px;
+            right: -100px;
+        }
+
+        .circle-2 {
+            width: 600px;
+            height: 600px;
+            background: #aa96da;
+            bottom: -300px;
+            left: -200px;
+        }
+
+        .circle-3 {
+            width: 400px;
+            height: 400px;
+            background: #ffd3b6;
+            top: 50%;
+            left: 60%;
+        }
+
+        .circle-4 {
+            width: 350px;
+            height: 350px;
+            background: #c9cbff;
+            bottom: 10%;
+            right: 20%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            left: 15%;
+            animation-delay: -10s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            top: 20%;
+            left: 75%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: #aa96da;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3f3d56;
+        }
+
+        .go-home {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 3;
+            background: white;
+            color: #5a5766;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+        }
+
+        .go-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+            background: #aa96da;
+            color: white;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 20px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
             text-align: center;
-            color: #333;
+            margin-bottom: 40px;
         }
-        table {
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3f3d56;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            color: #5a5766;
+            line-height: 1.5;
+        }
+
+        .admin-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            border: none;
+            background: transparent;
+            color: #5a5766;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: #aa96da;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(170, 150, 218, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            font-size: 40px;
+            color: #aa96da;
+            background: rgba(255, 255, 255, 0.9);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #3f3d56;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #5a5766;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .chart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 100%;
+        }
+
+        .data-section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin-top: 20px;
         }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: center;
+
+        .data-table th {
+            background: rgba(170, 150, 218, 0.1);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #3f3d56;
+            border-bottom: 2px solid rgba(170, 150, 218, 0.3);
         }
-        th {
-            background-color: #f4f4f4;
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(170, 150, 218, 0.1);
+            color: #5a5766;
         }
-        img {
-            width: 100px;
-            height: auto;
+
+        .data-table tr:hover {
+            background: rgba(170, 150, 218, 0.05);
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .document-preview {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #aa96da;
+            font-size: 24px;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ff9800;
+        }
+
+        .status-approved {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-rejected {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .approve-btn {
+            background: rgba(76, 175, 80, 0.1);
+            color: #4caf50;
+        }
+
+        .approve-btn:hover {
+            background: #4caf50;
+            color: white;
+        }
+
+        .reject-btn {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .reject-btn:hover {
+            background: #f44336;
+            color: white;
+        }
+
+        .view-btn {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196f3;
+        }
+
+        .view-btn:hover {
+            background: #2196f3;
+            color: white;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 1px solid rgba(170, 150, 218, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #5a5766;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #aa96da;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3f3d56;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #5a5766;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #3f3d56;
+            width: 150px;
+            flex-shrink: 0;
+        }
+
+        .detail-value {
+            color: #5a5766;
+            flex: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2rem;
+            }
+            
+            .dashboard-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .filters {
+                flex-direction: column;
+            }
+            
+            .admin-tabs {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 80px 15px 30px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Admin Dashboard</h1>
+        <div class="pastel-bg">
+            <div class="pastel-circle circle-1"></div>
+            <div class="pastel-circle circle-2"></div>
+            <div class="pastel-circle circle-3"></div>
+            <div class="pastel-circle circle-4"></div>
+        </div>
         
-        <!-- Donations Table -->
-        <h2>Donation Data</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Item Description</th>
-                    <th>Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for donation in donations %}
-                <tr>
-                    <td>{{ donation.name }}</td>
-                    <td>{{ donation.email }}</td>
-                    <td>{{ donation.phone }}</td>
-                    <td>{{ donation.item_description }}</td>
-                    <td><img src="{{ donation.image_path }}" alt="Item Image"></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <div class="logo-text">NGO-HUB</div>
+        </div>
+        
+        <a class="go-home" href="{{ url_for('home') }}">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+        
+        <div class="content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Admin Dashboard</h1>
+                <p class="dashboard-subtitle">Manage donations, NGO registrations, and platform content</p>
+            </div>
+            
+            <!-- Admin Tabs -->
+            <div class="admin-tabs">
+                <button class="tab active" data-tab="dashboard">
+                    <i class="fas fa-chart-bar"></i> Dashboard
+                </button>
+                <button class="tab" data-tab="donations">
+                    <i class="fas fa-donate"></i> Donation Submissions
+                </button>
+                <button class="tab" data-tab="ngo-registrations">
+                    <i class="fas fa-building"></i> NGO Registrations
+                </button>
+                <button class="tab" data-tab="ngo-requirements">
+                    <i class="fas fa-hand-holding-heart"></i> NGO Requirements
+                </button>
+            </div>
+            
+            <!-- Dashboard Tab -->
+            <div class="tab-content active" id="dashboard-tab">
+                <!-- Statistics Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-donate"></i>
+                        </div>
+                        <div class="stat-number" id="total-donations">0</div>
+                        <div class="stat-label">Pending Donations</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="stat-number" id="pending-ngos">0</div>
+                        <div class="stat-label">NGOs Awaiting Approval</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <div class="stat-number" id="pending-requirements">0</div>
+                        <div class="stat-label">Pending Requirements</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" id="total-users">342</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                </div>
+                
+                <!-- Charts Section -->
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3 class="chart-title">Platform Activity</h3>
+                        <div class="chart-container">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3 class="chart-title">Approval Status</h3>
+                        <div class="chart-container">
+                            <canvas id="approvalChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Donation Submissions Tab -->
+            <div class="tab-content" id="donations-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-donate"></i>
+                        Donation Submissions
+                    </h2>
+                    
+                    <div class="filters">
+                        <select class="filter-select" id="donation-status-filter" onchange="filterDonations()">
+                            <option value="all">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Donor</th>
+                                <th>Contact</th>
+                                <th>Item Description</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donationsTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- NGO Registrations Tab -->
+            <div class="tab-content" id="ngo-registrations-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-building"></i>
+                        NGO Registration Requests
+                    </h2>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>NGO Name</th>
+                                <th>Contact Person</th>
+                                <th>Email</th>
+                                <th>Registration No.</th>
+                                <th>Focus Areas</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ngoTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- NGO Requirements Tab -->
+            <div class="tab-content" id="ngo-requirements-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        NGO Donation Requirements
+                    </h2>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>NGO Name</th>
+                                <th>Requirement Title</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Urgency</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requirementsTableBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Donation Details Modal -->
+    <div class="modal" id="donation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Donation Details</h2>
+                <button class="close-modal" onclick="closeModal('donation-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="donation-details">
+                <!-- Details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- NGO Details Modal -->
+    <div class="modal" id="ngo-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">NGO Registration Details</h2>
+                <button class="close-modal" onclick="closeModal('ngo-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="ngo-details">
+                <!-- Details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Requirement Details Modal -->
+    <div class="modal" id="requirement-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Requirement Details</h2>
+                <button class="close-modal" onclick="closeModal('requirement-modal')">&times;</button>
+            </div>
+            <div class="modal-body" id="requirement-details">
+                <!-- Details will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load real data from backend
+        async function loadAdminData() {
+            try {
+                const response = await fetch('/admin-data');
+                const data = await response.json();
+                
+                updateStats(data.stats);
+                populateDonationsTable(data.pending_donations);
+                populateNGOTable(data.pending_ngos);
+                populateRequirementsTable(data.pending_requirements);
+                
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('total-donations').textContent = stats.pending_donations_count || 0;
+            document.getElementById('pending-ngos').textContent = stats.pending_ngos_count || 0;
+            document.getElementById('pending-requirements').textContent = stats.pending_requirements_count || 0;
+        }
+
+        function populateDonationsTable(donations) {
+            const tbody = document.getElementById('donationsTableBody');
+            tbody.innerHTML = '';
+            
+            donations.forEach(donation => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${donation.full_name}</td>
+                    <td>
+                        <div>${donation.email}</div>
+                        <div style="font-size: 0.8rem; color: #888;">${donation.phone}</div>
+                    </td>
+                    <td>${donation.item_description}</td>
+                    <td>${donation.category || 'General'}</td>
+                    <td>${new Date(donation.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <span class="status-badge status-${donation.status}">${donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view-btn" onclick="viewDonationDetails(${donation.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${donation.status === 'pending' ? `
+                            <button class="action-btn approve-btn" onclick="approveDonation(${donation.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectDonation(${donation.id})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function populateNGOTable(ngos) {
+            const tbody = document.getElementById('ngoTableBody');
+            tbody.innerHTML = '';
+            
+            ngos.forEach(ngo => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${ngo.name}</td>
+                    <td>${ngo.contact_person}</td>
+                    <td>${ngo.email}</td>
+                    <td>${ngo.registration_number}</td>
+                    <td>${ngo.focus_areas}</td>
+                    <td>${new Date(ngo.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <span class="status-badge status-${ngo.status}">${ngo.status.charAt(0).toUpperCase() + ngo.status.slice(1)}</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view-btn" onclick="viewNGODetails(${ngo.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${ngo.status === 'pending' ? `
+                            <button class="action-btn approve-btn" onclick="approveNGO(${ngo.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectNGO(${ngo.id})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function populateRequirementsTable(requirements) {
+            const tbody = document.getElementById('requirementsTableBody');
+            tbody.innerHTML = '';
+            
+            requirements.forEach(req => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${req.ngo_name}</td>
+                    <td>${req.title}</td>
+                    <td>${req.description.substring(0, 100)}${req.description.length > 100 ? '...' : ''}</td>
+                    <td>${req.category}</td>
+                    <td>
+                        <span class="status-badge status-${req.urgency}">${req.urgency.charAt(0).toUpperCase() + req.urgency.slice(1)}</span>
+                    </td>
+                    <td>${new Date(req.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <span class="status-badge status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view-btn" onclick="viewRequirementDetails(${req.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${req.status === 'pending' ? `
+                            <button class="action-btn approve-btn" onclick="approveRequirement(${req.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="action-btn reject-btn" onclick="rejectRequirement(${req.id})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Approval functions that actually call the backend
+        async function approveDonation(donationId) {
+            if (confirm('Are you sure you want to approve this donation?')) {
+                try {
+                    const response = await fetch(`/admin/donation/approve/${donationId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error approving donation', 'error');
+                }
+            }
+        }
+
+        async function rejectDonation(donationId) {
+            if (confirm('Are you sure you want to reject this donation?')) {
+                try {
+                    const response = await fetch(`/admin/donation/reject/${donationId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error rejecting donation', 'error');
+                }
+            }
+        }
+
+        async function approveNGO(ngoId) {
+            if (confirm('Are you sure you want to approve this NGO?')) {
+                try {
+                    const response = await fetch(`/admin/ngo/approve/${ngoId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error approving NGO', 'error');
+                }
+            }
+        }
+
+        async function rejectNGO(ngoId) {
+            if (confirm('Are you sure you want to reject this NGO?')) {
+                try {
+                    const response = await fetch(`/admin/ngo/reject/${ngoId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error rejecting NGO', 'error');
+                }
+            }
+        }
+
+        async function approveRequirement(reqId) {
+            if (confirm('Are you sure you want to approve this requirement?')) {
+                try {
+                    const response = await fetch(`/admin/requirement/approve/${reqId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error approving requirement', 'error');
+                }
+            }
+        }
+
+        async function rejectRequirement(reqId) {
+            if (confirm('Are you sure you want to reject this requirement?')) {
+                try {
+                    const response = await fetch(`/admin/requirement/reject/${reqId}`, {
+                        method: 'POST'
+                    });
+                    
+                    const result = await response.json();
+                    if (result.success) {
+                        showNotification(result.message, 'success');
+                        loadAdminData(); // Reload data
+                    } else {
+                        showNotification(result.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showNotification('Error rejecting requirement', 'error');
+                }
+            }
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background: ${type === 'success' ? '#4caf50' : '#f44336'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+                transition: all 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add subtle mouse move effect
+            document.addEventListener('mousemove', function(e) {
+                const circles = document.querySelectorAll('.pastel-circle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const xMove = (x - 0.5) * speed * 10;
+                    const yMove = (y - 0.5) * speed * 10;
+                    
+                    circle.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                });
+            });
+            
+            // Initialize charts
+            initializeCharts();
+            
+            // Load admin data
+            loadAdminData();
+            
+            // Refresh data every 30 seconds
+            setInterval(loadAdminData, 30000);
+        });
+
+        // Initialize charts
+        function initializeCharts() {
+            // Activity Chart
+            const activityCtx = document.getElementById('activityChart').getContext('2d');
+            const activityChart = new Chart(activityCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+                    datasets: [{
+                        label: 'Donations',
+                        data: [45, 52, 38, 65, 72, 58, 75, 82, 68, 90, 78],
+                        borderColor: '#aa96da',
+                        backgroundColor: 'rgba(170, 150, 218, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'NGO Registrations',
+                        data: [12, 15, 10, 18, 22, 16, 20, 25, 18, 28, 22],
+                        borderColor: '#a8d8ea',
+                        backgroundColor: 'rgba(168, 216, 234, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Approval Chart
+            const approvalCtx = document.getElementById('approvalChart').getContext('2d');
+            const approvalChart = new Chart(approvalCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Approved', 'Pending', 'Rejected'],
+                    datasets: [{
+                        data: [65, 25, 10],
+                        backgroundColor: [
+                            '#4caf50',
+                            '#ff9800',
+                            '#f44336'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Modal functions
+        function viewDonationDetails(id) {
+            // In a real app, this would fetch data from the server
+            const details = `
+                <div class="detail-row">
+                    <div class="detail-label">Donor Name:</div>
+                    <div class="detail-value">John Doe</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">john@example.com</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone:</div>
+                    <div class="detail-value">+1 234 567 8900</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Item Description:</div>
+                    <div class="detail-value">Winter coats for children, sizes 5-12. All items are in good condition.</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Category:</div>
+                    <div class="detail-value">Clothing</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Quantity:</div>
+                    <div class="detail-value">15 items</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Pickup Address:</div>
+                    <div class="detail-value">123 Main St, Anytown, USA</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Submitted On:</div>
+                    <div class="detail-value">2023-11-15 14:30</div>
+                </div>
+            `;
+            document.getElementById('donation-details').innerHTML = details;
+            document.getElementById('donation-modal').style.display = 'flex';
+        }
+
+        function viewNGODetails(id) {
+            // In a real app, this would fetch data from the server
+            const details = `
+                <div class="detail-row">
+                    <div class="detail-label">NGO Name:</div>
+                    <div class="detail-value">Hope for Children Foundation</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Contact Person:</div>
+                    <div class="detail-value">Michael Brown</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Email:</div>
+                    <div class="detail-value">michael@hopefoundation.org</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Phone:</div>
+                    <div class="detail-value">+1 234 567 8910</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Registration Number:</div>
+                    <div class="detail-value">NGO-2023-001</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Address:</div>
+                    <div class="detail-value">456 NGO Street, Charity City, USA</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Mission:</div>
+                    <div class="detail-value">Providing education and healthcare to underprivileged children in rural areas.</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Focus Areas:</div>
+                    <div class="detail-value">Education, Healthcare, Child Welfare</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Year Established:</div>
+                    <div class="detail-value">2015</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Submitted On:</div>
+                    <div class="detail-value">2023-11-10 10:15</div>
+                </div>
+            `;
+            document.getElementById('ngo-details').innerHTML = details;
+            document.getElementById('ngo-modal').style.display = 'flex';
+        }
+
+        function viewRequirementDetails(id) {
+            // In a real app, this would fetch data from the server
+            const details = `
+                <div class="detail-row">
+                    <div class="detail-label">NGO Name:</div>
+                    <div class="detail-value">Hope for Children Foundation</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Requirement Title:</div>
+                    <div class="detail-value">Winter Clothing Drive</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Description:</div>
+                    <div class="detail-value">We are collecting winter coats, sweaters, boots, and warm accessories for children aged 5-12 in rural communities. Many children in these areas lack proper winter clothing, making it difficult for them to attend school during cold months.</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Category:</div>
+                    <div class="detail-value">Clothing</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Urgency:</div>
+                    <div class="detail-value">High - Needed before winter season starts</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Target Quantity:</div>
+                    <div class="detail-value">200 sets of winter clothing</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Size Requirements:</div>
+                    <div class="detail-value">Children sizes 5-12, both boys and girls</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Condition:</div>
+                    <div class="detail-value">New or gently used (clean and in good condition)</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Distribution Area:</div>
+                    <div class="detail-value">Rural communities in Northern regions</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Deadline:</div>
+                    <div class="detail-value">2023-12-15</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Submitted On:</div>
+                    <div class="detail-value">2023-11-12 09:45</div>
+                </div>
+            `;
+            document.getElementById('requirement-details').innerHTML = details;
+            document.getElementById('requirement-modal').style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

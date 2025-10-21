@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-    <!-- Font Awesome for icons -->
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <title>About Us - NGO-HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -15,180 +15,655 @@
 
         body, html {
             height: 100%;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #f9f7f7;
         }
 
-        /* Full-page background */
-        .bg-image {
-            background-image: url('../static/images/hands.jpg'); /* Adjusted path */
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
-            height: 100%;
-            position: relative;
-            filter: brightness(0.85);
-        }
-
-        /* Container styling */
         .container {
-            position: absolute;
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            padding: 50px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 1000px;
-            color: #333;
-        }
-
-        header h1 {
-            font-size: 40px;
-            margin-bottom: 20px;
-            color: #35cfc5;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        /* Section styling */
-        section {
-            margin: 30px 0;
-        }
-
-        section h2 {
-            font-size: 28px;
-            margin-bottom: 15px;
-            color: #2d2d2d;
-        }
-
-        section p {
-            font-size: 18px;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        /* Vision and Mission cards */
-        .vision-mission {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dbe2ef 0%, #f9f7f7 50%, #dbe2ef 100%);
+            position: relative;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 20px;
+            flex-direction: column;
+            overflow: hidden;
         }
 
-        .vision, .mission {
-            border-radius: 10px;
-            padding: 20px;
-            width: 45%;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .pastel-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .pastel-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+        }
+
+        .circle-1 {
+            width: 500px;
+            height: 500px;
+            background: #a8d8ea;
+            top: -200px;
+            right: -100px;
+        }
+
+        .circle-2 {
+            width: 600px;
+            height: 600px;
+            background: #aa96da;
+            bottom: -300px;
+            left: -200px;
+        }
+
+        .circle-3 {
+            width: 400px;
+            height: 400px;
+            background: #ffd3b6;
+            top: 50%;
+            left: 60%;
+        }
+
+        .circle-4 {
+            width: 350px;
+            height: 350px;
+            background: #c9cbff;
+            bottom: 10%;
+            right: 20%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            left: 15%;
+            animation-delay: -10s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            top: 20%;
+            left: 75%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: #aa96da;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3f3d56;
+        }
+
+        .go-home {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 3;
+            background: white;
+            color: #5a5766;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+        }
+
+        .go-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+            background: #aa96da;
             color: white;
         }
 
-        /* Team and Mentor section */
-        .team-section {
+        .content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 20px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #3f3d56;
             text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: #5a5766;
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 40px;
+            color: #aa96da;
+            background: rgba(255, 255, 255, 0.8);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #5a5766;
+            line-height: 1.6;
+        }
+
+        .team-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3f3d56;
+            margin-bottom: 40px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: #aa96da;
+            border-radius: 2px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
             margin-top: 40px;
         }
 
-        .meet-team {
-            font-weight: bold;
-            font-size: 32px;
-            padding-top: 15px;
-        }
-
-        .team-info {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-        }
-
         .team-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.4s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a8d8ea, #aa96da);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 5px;
+        }
+
+        .team-role {
+            font-size: 1rem;
+            color: #aa96da;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .team-desc {
+            font-size: 0.9rem;
+            color: #5a5766;
+            line-height: 1.5;
+        }
+
+        .mentor-section {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            max-width: 600px;
+            margin: 40px auto;
             text-align: center;
         }
 
-        /* Button styling */
-        .go-home {
-            background-color: #ff6b81;
-            color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            margin-top: 10px;
-            text-decoration: none;
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .mentor-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 20px;
         }
 
-        .go-home a {
-            color: white;
-            text-decoration: none;
-        }
-        
-        .para-design {
-            font-weight: bold;
-            color: black;
+        .mentor-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #aa96da;
+            margin-bottom: 10px;
         }
 
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 60px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 30px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #aa96da;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #5a5766;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                gap: 20px;
+            }
+            
+            .stat {
+                min-width: 120px;
+                padding: 15px 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2.2rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 80px 15px 30px;
+            }
+            
+            .about-card, .team-card {
+                padding: 20px 15px;
+            }
+            
+            .stats-container {
+                gap: 15px;
+            }
+            
+            .stat {
+                min-width: 100px;
+                padding: 12px 15px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="bg-image">
-        <a class="go-home" href="{{ url_for('home') }}"> <i class="fas fa-home"></i> HOME</a>
-
-        <div class="container">
-            <header>
-                <h1>About Us</h1>
-            </header>
-
-            <section class="about-section">
-                <h2>Who We Are</h2>
-                <p class="para-design">
-                    Welcome to The NGO Hub! Our organization is dedicated to empowering communities by providing essential resources and support. We believe in the power of unity and compassion to uplift those in need. From providing clothes, food, and educational resources to organizing charitable activities, we aim to create a positive impact on society.
-                </p>
-            </section>
-
-            <section class="vision-mission">
-                <div class="vision">
-                    <h2>Our Vision</h2>
-                    <p class="para-design">
-                        Our vision is a world where every individual has access to the basic necessities of life—food, clothing, and education. We aim to create a society where the less fortunate are supported through acts of kindness and charitable initiatives.
-                    </p>
-                </div>
-
-                <div class="mission">
-                    <h2>Our Mission</h2>
-                    <p class="para-design">
-                        Our mission is to provide continuous aid to those in need by fostering a culture of giving. Through strategic partnerships, community efforts, and volunteer work, we aim to collect and distribute essential items to the underprivileged. Together, we hope to bridge the gap between those who have and those who need.
-                    </p>
-                </div>
-            </section>
-
-            <section class="team-section">
-                <p class="meet-team">Meet Our Team</p>
-                <p>
-                    Our team consists of passionate individuals who are dedicated to making a difference. From our volunteers on the ground to our leaders planning each project, every member plays a crucial role in making our vision a reality.
-                </p>
-                <div class="team-info">
-                    <div class="team-card">
-                        <strong>Our Team</strong>
-                        <p>Clarissa Dsouza<br>Sean Andrades<br> Nishant Singh</p>
+    <div class="container">
+        <div class="pastel-bg">
+            <div class="pastel-circle circle-1"></div>
+            <div class="pastel-circle circle-2"></div>
+            <div class="pastel-circle circle-3"></div>
+            <div class="pastel-circle circle-4"></div>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <div class="logo-text">NGO-HUB</div>
+        </div>
+        
+        <a class="go-home" href="{{ url_for('home') }}">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+        
+        <div class="content">
+            <h1 class="page-title">About <span style="color: #aa96da;">NGO-HUB</span></h1>
+            <p class="page-subtitle">Discover the story behind our mission to connect hearts and create meaningful change across communities worldwide.</p>
+            
+            <div class="about-grid">
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-heart"></i>
                     </div>
+                    <h3 class="card-title">Who We Are</h3>
+                    <p class="card-text">NGO-HUB is a dedicated platform connecting compassionate individuals with impactful organizations. We believe in the power of unity and compassion to uplift those in need, creating a bridge between resources and communities.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="card-title">Our Vision</h3>
+                    <p class="card-text">We envision a world where every individual has access to basic necessities—food, clothing, education, and opportunities. A society where compassion drives action and no one is left behind.</p>
+                </div>
+                
+                <div class="about-card">
+                    <div class="card-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Our Mission</h3>
+                    <p class="card-text">To provide continuous aid through strategic partnerships, community efforts, and volunteer work. We collect and distribute essential resources while fostering a culture of giving and empathy.</p>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat">
+                    <span class="stat-number" id="years-count">0</span>
+                    <span class="stat-label">Years of Service</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="partners-count">0</span>
+                    <span class="stat-label">Partner NGOs</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="volunteers-count">0</span>
+                    <span class="stat-label">Active Volunteers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="communities-count">0</span>
+                    <span class="stat-label">Communities Served</span>
+                </div>
+            </div>
+            
+            <div class="team-section">
+                <h2 class="section-title">Our Team</h2>
+                <p style="color: #5a5766; max-width: 700px; margin: 0 auto 30px; line-height: 1.6;">Our team consists of passionate individuals dedicated to making a difference. From volunteers on the ground to leaders planning each project, every member plays a crucial role in making our vision a reality.</p>
+                
+                <div class="team-grid">
                     <div class="team-card">
-                        <strong>Our Mentor</strong>
-                        <p>Nidhi Jha</p>
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="team-name">SAMIDHA SONAWANE</h3>
+                        <p class="team-role">Co-Founder & Director</p>
+                        <p class="team-desc">Leading strategic initiatives and community outreach programs with over 8 years of experience in nonprofit management.</p>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="team-name">VERENA FERNANDES</h3>
+                        <p class="team-role">Operations Manager</p>
+                        <p class="team-desc">Overseeing day-to-day operations and ensuring efficient resource distribution to communities in need.</p>
+                    </div>
+                    
+                    <div class="team-card">
+                        <div class="team-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 class="team-name">NISHANT SINGH</h3>
+                        <p class="team-role">Technology Lead</p>
+                        <p class="team-desc">Developing the digital infrastructure that powers our platform and connects donors with causes.</p>
                     </div>
                 </div>
-            </section>
+            </div>
+            
+            <div class="mentor-section">
+                <h3 class="mentor-title">Our Mentor</h3>
+                <div class="team-avatar" style="margin: 0 auto 20px;">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <h3 class="mentor-name">
+AARTI PUTHRAN</h3>
+                <p class="team-desc">Providing guidance and strategic direction with extensive experience in social entrepreneurship and community development.</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Animated counter for statistics
+        function animateCounter(element, target, duration) {
+            let start = 0;
+            const increment = target / (duration / 16);
+            const timer = setInterval(() => {
+                start += increment;
+                if (start >= target) {
+                    element.textContent = target.toLocaleString();
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(start).toLocaleString();
+                }
+            }, 16);
+        }
+
+        // Initialize counters when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCounter(document.getElementById('years-count'), 5, 2000);
+            animateCounter(document.getElementById('partners-count'), 245, 2000);
+            animateCounter(document.getElementById('volunteers-count'), 1289, 2000);
+            animateCounter(document.getElementById('communities-count'), 42, 2000);
+            
+            // Add subtle mouse move effect
+            document.addEventListener('mousemove', function(e) {
+                const circles = document.querySelectorAll('.pastel-circle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const xMove = (x - 0.5) * speed * 10;
+                    const yMove = (y - 0.5) * speed * 10;
+                    
+                    circle.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                });
+            });
+            
+            // Add scroll animation for cards
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards for scroll animation
+            const cards = document.querySelectorAll('.about-card, .team-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>

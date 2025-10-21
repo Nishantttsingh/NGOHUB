@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGO Registration | NGO-HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: #f9f7f7;
+        }
+
+        .container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dbe2ef 0%, #f9f7f7 50%, #dbe2ef 100%);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .pastel-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .pastel-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+        }
+
+        .circle-1 {
+            width: 500px;
+            height: 500px;
+            background: #a8d8ea;
+            top: -200px;
+            right: -100px;
+        }
+
+        .circle-2 {
+            width: 600px;
+            height: 600px;
+            background: #aa96da;
+            bottom: -300px;
+            left: -200px;
+        }
+
+        .circle-3 {
+            width: 400px;
+            height: 400px;
+            background: #ffd3b6;
+            top: 50%;
+            left: 60%;
+        }
+
+        .circle-4 {
+            width: 350px;
+            height: 350px;
+            background: #c9cbff;
+            bottom: 10%;
+            right: 20%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 15%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -5s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 60%;
+            left: 15%;
+            animation-delay: -10s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            top: 20%;
+            left: 75%;
+            animation-delay: -7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .logo {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            color: #aa96da;
+            background: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #3f3d56;
+        }
+
+        .go-home {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 3;
+            background: white;
+            color: #5a5766;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+        }
+
+        .go-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+            background: #aa96da;
+            color: white;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 20px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #3f3d56;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.2rem;
+            color: #5a5766;
+            line-height: 1.5;
+        }
+
+        .ngo-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 25px;
+            border: none;
+            background: transparent;
+            color: #5a5766;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab.active {
+            background: #aa96da;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(170, 150, 218, 0.1);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .data-section {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3f3d56;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #3f3d56;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #aa96da;
+            box-shadow: 0 0 0 4px rgba(170, 150, 218, 0.15);
+        }
+
+        .file-upload {
+            border: 2px dashed #e8e8e8;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .file-upload:hover {
+            border-color: #aa96da;
+            background: #f8f9ff;
+        }
+
+        .file-upload i {
+            font-size: 2.8rem;
+            color: #aa96da;
+            margin-bottom: 16px;
+        }
+
+        .file-upload p {
+            color: #5a5766;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            min-width: 120px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #aa96da, #c9cbff);
+            color: white;
+            box-shadow: 0 6px 20px rgba(170, 150, 218, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #9584d6, #b4b6ff);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(170, 150, 218, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #5a5766;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table th {
+            background: rgba(170, 150, 218, 0.1);
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #3f3d56;
+            border-bottom: 2px solid rgba(170, 150, 218, 0.3);
+        }
+
+        .data-table td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(170, 150, 218, 0.1);
+            color: #5a5766;
+        }
+
+        .data-table tr:hover {
+            background: rgba(170, 150, 218, 0.05);
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ff9800;
+        }
+
+        .status-approved {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .status-rejected {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: rgba(33, 150, 243, 0.1);
+            color: #2196f3;
+        }
+
+        .edit-btn:hover {
+            background: #2196f3;
+            color: white;
+        }
+
+        .delete-btn {
+            background: rgba(244, 67, 54, 0.1);
+            color: #f44336;
+        }
+
+        .delete-btn:hover {
+            background: #f44336;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #3f3d56;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #5a5766;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 50px 30px;
+        }
+
+        .success-message i {
+            font-size: 5rem;
+            color: #00C9B7;
+            margin-bottom: 24px;
+        }
+
+        .success-message h3 {
+            color: #3f3d56;
+            margin-bottom: 16px;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .success-message p {
+            color: #5a5766;
+            margin-bottom: 32px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 2rem;
+            }
+            
+            .dashboard-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .data-table {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .ngo-tabs {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 80px 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="pastel-bg">
+            <div class="pastel-circle circle-1"></div>
+            <div class="pastel-circle circle-2"></div>
+            <div class="pastel-circle circle-3"></div>
+            <div class="pastel-circle circle-4"></div>
+        </div>
+        
+        <div class="floating-elements">
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+            <div class="floating-element"></div>
+        </div>
+        
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-hands-helping"></i>
+            </div>
+            <div class="logo-text">NGO-HUB</div>
+        </div>
+        
+        <a class="go-home" href="{{ url_for('home') }}">
+            <i class="fas fa-home"></i> Back to Home
+        </a>
+        
+        <div class="content">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">NGO Portal</h1>
+                <p class="dashboard-subtitle">Register your NGO and manage donation requirements</p>
+            </div>
+            
+            <!-- NGO Tabs -->
+            <div class="ngo-tabs">
+                <button class="tab active" data-tab="registration">
+                    <i class="fas fa-building"></i> NGO Registration
+                </button>
+                <button class="tab" data-tab="requirements">
+                    <i class="fas fa-hand-holding-heart"></i> Add Requirements
+                </button>
+                <button class="tab" data-tab="status">
+                    <i class="fas fa-clipboard-check"></i> Status Check
+                </button>
+            </div>
+            
+            <!-- Registration Tab -->
+            <div class="tab-content active" id="registration-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-building"></i>
+                        Register Your NGO
+                    </h2>
+                    <p style="margin-bottom: 25px; color: #5a5766;">Fill out the form below to register your NGO. Your registration will be reviewed by our admin team.</p>
+                    
+                    <form id="ngoRegistrationForm">
+                        <div class="form-group">
+                            <label for="ngoName">NGO Name *</label>
+                            <input type="text" id="ngoName" name="ngoName" placeholder="Enter your NGO's official name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registrationNumber">Registration Number *</label>
+                            <input type="text" id="registrationNumber" name="registrationNumber" placeholder="Official registration number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactPerson">Contact Person *</label>
+                            <input type="text" id="contactPerson" name="contactPerson" placeholder="Full name of contact person" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="Official email address" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Official phone number" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address">Address *</label>
+                            <textarea id="address" name="address" rows="3" placeholder="Full physical address of your NGO" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mission">Mission Statement *</label>
+                            <textarea id="mission" name="mission" rows="3" placeholder="Brief description of your NGO's mission" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="focusAreas">Focus Areas *</label>
+                            <select id="focusAreas" name="focusAreas" multiple required>
+                                <option value="education">Education</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="environment">Environment</option>
+                                <option value="children">Children</option>
+                                <option value="elderly">Elderly</option>
+                                <option value="animals">Animals</option>
+                                <option value="poverty">Poverty Alleviation</option>
+                                <option value="disaster">Disaster Relief</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <small style="color: #888; font-size: 0.85rem;">Hold Ctrl/Cmd to select multiple options</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Registration Documents *</label>
+                            <div class="file-upload" id="docUpload">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Click to upload registration documents (PDF, JPG, PNG)</p>
+                                <input type="file" id="registrationDocs" name="registrationDocs" multiple accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                            </div>
+                            <div id="docList"></div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="button" class="btn btn-secondary" onclick="resetRegistrationForm()">Reset Form</button>
+                            <button type="submit" class="btn btn-primary">Submit Registration</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Requirements Tab -->
+            <div class="tab-content" id="requirements-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        Add Donation Requirements
+                    </h2>
+                    <p style="margin-bottom: 25px; color: #5a5766;">Submit your NGO's donation requirements. These will be reviewed by our admin team before appearing on the donation page.</p>
+                    
+                    <form id="requirementForm">
+                        <div class="form-group">
+                            <label for="requirementTitle">Requirement Title *</label>
+                            <input type="text" id="requirementTitle" name="requirementTitle" placeholder="e.g., Winter Clothing Drive" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="requirementDescription">Description *</label>
+                            <textarea id="requirementDescription" name="requirementDescription" rows="3" placeholder="Detailed description of what you need and why" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="requirementCategory">Category *</label>
+                            <select id="requirementCategory" name="requirementCategory" required>
+                                <option value="">Select a category</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="food">Food</option>
+                                <option value="books">Books</option>
+                                <option value="medical">Medical Supplies</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="furniture">Furniture</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="quantity">Target Quantity *</label>
+                            <input type="number" id="quantity" name="quantity" placeholder="Number of items needed" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="urgency">Urgency Level *</label>
+                            <select id="urgency" name="urgency" required>
+                                <option value="">Select urgency level</option>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                                <option value="critical">Critical</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="deadline">Deadline (if applicable)</label>
+                            <input type="date" id="deadline" name="deadline">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="specificRequirements">Specific Requirements</label>
+                            <textarea id="specificRequirements" name="specificRequirements" rows="3" placeholder="Any specific requirements (sizes, types, conditions, etc.)"></textarea>
+                        </div>
+                        
+                        <div style="display: flex; gap: 15px; margin-top: 30px;">
+                            <button type="button" class="btn btn-secondary" onclick="resetRequirementForm()">Reset Form</button>
+                            <button type="submit" class="btn btn-primary">Submit Requirement</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Status Tab -->
+            <div class="tab-content" id="status-tab">
+                <div class="data-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-clipboard-check"></i>
+                        Registration & Requirements Status
+                    </h2>
+                    <p style="margin-bottom: 25px; color: #5a5766;">Check the status of your NGO registration and submitted requirements.</p>
+                    
+                    <h3 style="margin-bottom: 15px; color: #3f3d56;">NGO Registration Status</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>NGO Name</th>
+                                <th>Registration No.</th>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="registrationStatusBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                    
+                    <h3 style="margin-top: 30px; margin-bottom: 15px; color: #3f3d56;">Requirements Status</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Requirement Title</th>
+                                <th>Category</th>
+                                <th>Urgency</th>
+                                <th>Submitted Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requirementsStatusBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="successModalTitle">Success!</h2>
+                <button class="close-modal" onclick="closeModal('successModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    <h3 id="successHeading">Submission Successful</h3>
+                    <p id="successMessageText">Your submission has been received and is now under review by our admin team. You will be notified once a decision is made.</p>
+                    <button class="btn btn-primary" onclick="closeModal('successModal')">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // File upload functionality
+        document.getElementById('docUpload').addEventListener('click', function() {
+            document.getElementById('registrationDocs').click();
+        });
+
+        document.getElementById('registrationDocs').addEventListener('change', function() {
+            const fileList = document.getElementById('docList');
+            fileList.innerHTML = '';
+            
+            if (this.files.length > 0) {
+                const list = document.createElement('ul');
+                list.style.marginTop = '10px';
+                list.style.paddingLeft = '20px';
+                
+                for (let i = 0; i < this.files.length; i++) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = this.files[i].name;
+                    list.appendChild(listItem);
+                }
+                
+                fileList.appendChild(list);
+            }
+        });
+
+        // Form submission handlers
+        document.getElementById('ngoRegistrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/ngo-register', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success modal
+                    document.getElementById('successModalTitle').textContent = 'Registration Submitted';
+                    document.getElementById('successHeading').textContent = 'NGO Registration Submitted';
+                    document.getElementById('successMessageText').textContent = result.message;
+                    document.getElementById('successModal').style.display = 'flex';
+                    
+                    // Add to registration status table
+                    addRegistrationToStatusTable();
+                    resetRegistrationForm();
+                } else {
+                    alert('Failed to submit registration: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById('requirementForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            try {
+                const response = await fetch('/ngo-add-requirement', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success modal
+                    document.getElementById('successModalTitle').textContent = 'Requirement Submitted';
+                    document.getElementById('successHeading').textContent = 'Donation Requirement Submitted';
+                    document.getElementById('successMessageText').textContent = result.message;
+                    document.getElementById('successModal').style.display = 'flex';
+                    
+                    addRequirementToStatusTable();
+                    resetRequirementForm();
+                } else {
+                    alert('Failed to submit requirement: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        // Form reset functions
+        function resetRegistrationForm() {
+            document.getElementById('ngoRegistrationForm').reset();
+            document.getElementById('docList').innerHTML = '';
+        }
+
+        function resetRequirementForm() {
+            document.getElementById('requirementForm').reset();
+        }
+
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Status table management
+        function addRegistrationToStatusTable() {
+            const ngoName = document.getElementById('ngoName').value;
+            const registrationNumber = document.getElementById('registrationNumber').value;
+            const today = new Date().toISOString().split('T')[0];
+            
+            const tableBody = document.getElementById('registrationStatusBody');
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${ngoName}</td>
+                <td>${registrationNumber}</td>
+                <td>${today}</td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+            `;
+            
+            tableBody.appendChild(row);
+        }
+
+        function addRequirementToStatusTable() {
+            const title = document.getElementById('requirementTitle').value;
+            const category = document.getElementById('requirementCategory').value;
+            const urgency = document.getElementById('urgency').value;
+            const today = new Date().toISOString().split('T')[0];
+            
+            const tableBody = document.getElementById('requirementsStatusBody');
+            const row = document.createElement('tr');
+            
+            row.innerHTML = `
+                <td>${title}</td>
+                <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
+                <td>${urgency.charAt(0).toUpperCase() + urgency.slice(1)}</td>
+                <td>${today}</td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn edit-btn">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add subtle mouse move effect
+            document.addEventListener('mousemove', function(e) {
+                const circles = document.querySelectorAll('.pastel-circle');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 0.5;
+                    const xMove = (x - 0.5) * speed * 10;
+                    const yMove = (y - 0.5) * speed * 10;
+                    
+                    circle.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                });
+            });
+            
+            // Set minimum date for deadline field
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('deadline').min = today;
+        });
+    </script>
+</body>
+</html>

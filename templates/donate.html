@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donate For NGOs</title>
+    <title>Donate For NGOs | NGO-HUB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -12,139 +14,1319 @@
         }
 
         body {
-            font-family: 'Courier New', Courier, monospace;
-            background: linear-gradient(to bottom right, #ff9ff3, #00c9ff); /* Pink to blue gradient */
-            text-align: center;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #dbe2ef 0%, #f9f7f7 50%, #dbe2ef 100%);
+            color: #3f3d56;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .pastel-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .pastel-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.15;
+            filter: blur(40px);
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: #a8d8ea;
+            top: -100px;
+            right: -50px;
+        }
+
+        .circle-2 {
+            width: 500px;
+            height: 500px;
+            background: #aa96da;
+            bottom: -200px;
+            left: -150px;
         }
 
         .container {
-            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
         }
 
         .home-button {
-            background-color: #ff9ff3;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 15px 30px;
-            font-size: 18px;
+            background: white;
+            color: #aa96da;
+            border: 2px solid #aa96da;
+            border-radius: 50px;
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin: 20px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
             text-decoration: none;
         }
 
         .home-button:hover {
-            background-color: #ff6b81;
-        }
-
-        .header h4 {
-            font-size: 24px;
-            color: #fff;
-            margin-bottom: 10px;
+            background: #aa96da;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(170, 150, 218, 0.3);
         }
 
         .header h1 {
-            font-size: 48px;
-            margin: 10px 0;
-            color: #fff;
+            font-size: 3.2rem;
+            color: #3f3d56;
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.2;
         }
 
-        .ngo-section {
+        .header p {
+            font-size: 1.3rem;
+            color: #5a5766;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        .filter-section {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .filter-title {
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            color: #3f3d56;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .filter-options {
+            display: flex;
             flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 28px;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #5a5766;
+            font-size: 1rem;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #aa96da;
+            box-shadow: 0 0 0 4px rgba(170, 150, 218, 0.15);
+        }
+
+        .priority-tags {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .priority-tag {
+            background: white;
+            border: 2px solid #e8e8e8;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .priority-tag.active {
+            background: #ffd3b6;
+            border-color: #ffd3b6;
+            color: #3f3d56;
+            box-shadow: 0 4px 12px rgba(255, 211, 182, 0.3);
+        }
+
+        .priority-tag:hover:not(.active) {
+            border-color: #aa96da;
+            transform: translateY(-2px);
+        }
+
+        .priority-tag.food { border-left: 5px solid #ff9f43; }
+        .priority-tag.clothes { border-left: 5px solid #00C9B7; }
+        .priority-tag.books { border-left: 5px solid #aa96da; }
+
+        .ngo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 32px;
+            margin-top: 40px;
         }
 
         .ngo-card {
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 250px;
-            text-align: center;
-            margin-top: 30px;
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .ngo-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        .priority-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff9f43, #ffbe76);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.3);
         }
 
         .ngo-card img {
             width: 100%;
-            border-radius: 8px;
-            height: 180px;
+            height: 220px;
             object-fit: cover;
+            display: block;
         }
 
-        .ngo-card p {
-            font-size: 18px;
-            margin-top: 15px;
-            color: #333;
-            font-weight: bold;
+        .ngo-info {
+            padding: 28px;
+        }
+
+        .ngo-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #3f3d56;
+            line-height: 1.3;
+        }
+
+        .ngo-category {
+            color: #aa96da;
+            font-weight: 500;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+        }
+
+        .ngo-location {
+            color: #5a5766;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
         }
 
         .donate-button {
-            margin-top: 15px;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            text-decoration: none;
+            width: 100%;
+            background: linear-gradient(45deg, #aa96da, #c9cbff);
             color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 20px rgba(170, 150, 218, 0.3);
         }
-
-        .donate-button.teal { background-color: #00C9B7; }
-        .donate-button.orange { background-color: #FF9F43; }
-        .donate-button.red { background-color: #FF6B6B; }
 
         .donate-button:hover {
-            opacity: 0.9;
+            background: linear-gradient(45deg, #9584d6, #b4b6ff);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(170, 150, 218, 0.4);
         }
 
-        /* Links inside buttons */
-        .donate-button a {
+        .donate-button.quick-donate {
+            background: linear-gradient(45deg, #00C9B7, #00e6c3);
+        }
+
+        .donate-button.quick-donate:hover {
+            background: linear-gradient(45deg, #00b3a1, #00d4b8);
+        }
+
+        /* Modal Styles */
+        .donation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 95%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9ff, #ffffff);
+            border-radius: 24px 24px 0 0;
+        }
+
+        .modal-header h2 {
+            color: #3f3d56;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 26px;
+            cursor: pointer;
+            color: #5a5766;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            background: #f8f9fa;
+            color: #3f3d56;
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-step h3 {
+            font-size: 1.4rem;
+            color: #3f3d56;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .form-step p {
+            color: #5a5766;
+            margin-bottom: 28px;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: #3f3d56;
+            font-size: 1rem;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e8e8e8;
+            border-radius: 14px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #aa96da;
+            box-shadow: 0 0 0 4px rgba(170, 150, 218, 0.15);
+        }
+
+        .timeline-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .timeline-option {
+            flex: 1;
+            text-align: center;
+            padding: 24px 20px;
+            border: 2px solid #e8e8e8;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .timeline-option:hover {
+            border-color: #aa96da;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-option.active {
+            border-color: #aa96da;
+            background: rgba(170, 150, 218, 0.08);
+            box-shadow: 0 8px 20px rgba(170, 150, 218, 0.15);
+        }
+
+        .timeline-option i {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #aa96da;
+        }
+
+        .timeline-option h4 {
+            color: #3f3d56;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .timeline-option p {
+            color: #5a5766;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .file-upload {
+            border: 2px dashed #e8e8e8;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        .file-upload:hover {
+            border-color: #aa96da;
+            background: #f8f9ff;
+        }
+
+        .file-upload i {
+            font-size: 2.8rem;
+            color: #aa96da;
+            margin-bottom: 16px;
+        }
+
+        .file-upload p {
+            color: #5a5766;
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .validation-process {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+            border: 1px solid #e8e8e8;
+        }
+
+        .validation-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .validation-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .validation-step i {
+            color: #aa96da;
+            font-size: 1.3rem;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .validation-step div {
+            flex: 1;
+        }
+
+        .validation-step strong {
+            color: #3f3d56;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 1rem;
+        }
+
+        .validation-step p {
+            color: #5a5766;
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            padding: 24px 32px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            background: #fafbfc;
+            border-radius: 0 0 24px 24px;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            min-width: 120px;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #5a5766;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #aa96da, #c9cbff);
             color: white;
-            text-decoration: none;
-            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(170, 150, 218, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #9584d6, #b4b6ff);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(170, 150, 218, 0.4);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 50px 30px;
+        }
+
+        .success-message i {
+            font-size: 5rem;
+            color: #00C9B7;
+            margin-bottom: 24px;
+        }
+
+        .success-message h3 {
+            color: #3f3d56;
+            margin-bottom: 16px;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .success-message p {
+            color: #5a5766;
+            margin-bottom: 32px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 35px 25px;
+            }
+            
+            .ngo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: 28px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header p {
+                font-size: 1.2rem;
+            }
+            
+            .filter-options {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .ngo-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .timeline-options {
+                flex-direction: column;
+                gap: 16px;
+            }
+            
+            .modal-body {
+                padding: 24px;
+            }
+            
+            .modal-header {
+                padding: 24px;
+            }
+            
+            .modal-footer {
+                padding: 20px 24px;
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 15px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .filter-section {
+                padding: 24px 20px;
+            }
+            
+            .priority-tags {
+                justify-content: center;
+            }
+            
+            .ngo-info {
+                padding: 24px;
+            }
+            
+            .modal-content {
+                width: 100%;
+                margin: 10px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="pastel-bg">
+        <div class="pastel-circle circle-1"></div>
+        <div class="pastel-circle circle-2"></div>
+    </div>
 
-    <button class="home-button" onclick="location.href='home.html'">HOME</button>
-    
     <div class="container">
+        <button class="home-button" onclick="location.href='{{ url_for('home') }}'">
+            <i class="fas fa-arrow-left"></i> BACK TO HOME
+        </button>
+        
         <div class="header">
-            <h4>All NGOs</h4>
-            <h1>Donate For NGOs</h1>
+            <h1>Donate to NGOs</h1>
+            <p>Find and support NGOs in your area. Your donation can make a real difference.</p>
         </div>
 
-        <div class="ngo-section">
-            <div class="ngo-card">
-                <img src="https://www.dailypioneer.com/uploads/2017/story/images/big/191286_1.jpg" alt="Children">
-                <p>CHILDREN</p>
-                <button class="donate-button teal"><a href="donate-form.html">Donate</a></button>
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h2 class="filter-title"><i class="fas fa-filter"></i> Filter NGOs</h2>
+            
+            <div class="filter-options">
+                <div class="filter-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Your Area</label>
+                    <select id="areaFilter">
+                        <option value="">Select your area</option>
+                        <option value="downtown">Downtown</option>
+                        <option value="suburbs">Suburbs</option>
+                        <option value="rural">Rural Areas</option>
+                        <option value="coastal">Coastal Regions</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label><i class="fas fa-tags"></i> NGO Category</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="children">Children</option>
+                        <option value="elderly">Elderly</option>
+                        <option value="sick">Sick</option>
+                        <option value="animals">Animals</option>
+                    </select>
+                </div>
             </div>
-
-            <div class="ngo-card">
-                <img src="oldngo.jpg" alt="Elderly">
-                <p>ELDERLY</p>
-                <button class="donate-button orange"><a href="donate-form.html">Donate</a></button>
+            
+            <div class="filter-group">
+                <label><i class="fas fa-star"></i> Priority Donation Types</label>
+                <div class="priority-tags">
+                    <div class="priority-tag food active" data-type="food">
+                        <i class="fas fa-utensils"></i> Food
+                    </div>
+                    <div class="priority-tag clothes" data-type="clothes">
+                        <i class="fas fa-tshirt"></i> Clothes
+                    </div>
+                    <div class="priority-tag books" data-type="books">
+                        <i class="fas fa-book"></i> Books
+                    </div>
+                </div>
             </div>
+        </div>
 
-            <div class="ngo-card">
-                <img src="sickngo.jpg" alt="Sick">
-                <p>SICK</p>
-                <button class="donate-button red"><a href="donate-form.html">Donate</a></button>
+        <!-- NGO List -->
+        <div class="ngo-grid" id="ngoList">
+            <!-- NGOs will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Donation Modal -->
+    <div class="donation-modal" id="donationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Make a Donation</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
             </div>
+            
+            <div class="modal-body">
+                <!-- Step 1: Donation Timing -->
+                <div class="form-step active" id="step1">
+                    <h3>When is your donation available?</h3>
+                    <p>Select when you can provide the donation items.</p>
+                    
+                    <div class="timeline-options">
+                        <div class="timeline-option" data-timing="now">
+                            <i class="fas fa-bolt"></i>
+                            <h4>Available Now</h4>
+                            <p>I have the items ready for immediate pickup</p>
+                        </div>
+                        <div class="timeline-option" data-timing="later">
+                            <i class="fas fa-calendar"></i>
+                            <h4>Available Later</h4>
+                            <p>I will have the items available in the future</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2: Donation Details -->
+                <div class="form-step" id="step2">
+                    <h3>Donation Details</h3>
+                    <p>Please provide information about your donation.</p>
+                    
+                    <div class="form-group">
+                        <label for="itemType">Item Type *</label>
+                        <select id="itemType" required>
+                            <option value="">Select item type</option>
+                            <option value="food">Food</option>
+                            <option value="clothes">Clothes</option>
+                            <option value="books">Books</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemDescription">Item Description *</label>
+                        <textarea id="itemDescription" rows="3" placeholder="Describe the items you're donating..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemQuantity">Quantity *</label>
+                        <input type="number" id="itemQuantity" placeholder="Number of items" required>
+                    </div>
+                </div>
+                
+                <!-- Step 3: Upload & Contact (For Available Now) -->
+                <div class="form-step" id="step3-now">
+                    <h3>Contact Information</h3>
+                    <p>Provide your contact details for pickup coordination.</p>
+                    
+                    <div class="form-group">
+                        <label for="donorName">Your Full Name *</label>
+                        <input type="text" id="donorName" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donorEmail">Your Email *</label>
+                        <input type="email" id="donorEmail" placeholder="Enter your email address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donorPhone">Your Phone *</label>
+                        <input type="tel" id="donorPhone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupAddress">Pickup Address *</label>
+                        <textarea id="pickupAddress" rows="3" placeholder="Enter full address for pickup..." required></textarea>
+                    </div>
+                </div>
 
-            <div class="ngo-card">
-                <img src="animals.jpg" alt="Animals">
-                <p>ANIMALS</p>
-                <button class="donate-button teal"><a href="donate-form.html">Donate</a></button>
+                <!-- Step 3: Schedule Donation (For Available Later) -->
+                <div class="form-step" id="step3-later">
+                    <h3>Schedule Your Donation</h3>
+                    <p>Choose when we can pick up your donation items.</p>
+                    
+                    <div class="form-group">
+                        <label for="donorNameLater">Your Full Name *</label>
+                        <input type="text" id="donorNameLater" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donorEmailLater">Your Email *</label>
+                        <input type="email" id="donorEmailLater" placeholder="Enter your email address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donorPhoneLater">Your Phone *</label>
+                        <input type="tel" id="donorPhoneLater" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferredDate">Preferred Pickup Date</label>
+                        <input type="date" id="preferredDate" min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="preferredTime">Preferred Pickup Time</label>
+                        <select id="preferredTime">
+                            <option value="">Select time slot</option>
+                            <option value="morning">Morning (9 AM - 12 PM)</option>
+                            <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                            <option value="evening">Evening (4 PM - 7 PM)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specialInstructions">Special Instructions</label>
+                        <textarea id="specialInstructions" rows="3" placeholder="Any special instructions for pickup..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickupAddressLater">Pickup Address *</label>
+                        <textarea id="pickupAddressLater" rows="3" placeholder="Enter full address for pickup..." required></textarea>
+                    </div>
+                </div>
+                
+                <!-- Step 4: Validation Process -->
+                <div class="form-step" id="step4">
+                    <h3>Validation Process</h3>
+                    <p>Your donation will go through the following validation steps:</p>
+                    
+                    <div class="validation-process">
+                        <div class="validation-step">
+                            <i class="fas fa-camera"></i>
+                            <div>
+                                <strong>Photo Clarity Check</strong>
+                                <p>System will verify photo quality and item visibility</p>
+                            </div>
+                        </div>
+                        
+                        <div class="validation-step">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <div>
+                                <strong>Address & Contact Verification</strong>
+                                <p>System will validate pickup address and contact format</p>
+                            </div>
+                        </div>
+                        
+                        <div class="validation-step">
+                            <i class="fas fa-clipboard-check"></i>
+                            <div>
+                                <strong>Item Eligibility Check</strong>
+                                <p>System will match items with NGO requirements</p>
+                            </div>
+                        </div>
+                        
+                        <div class="validation-step">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Fraud & Duplicate Prevention</strong>
+                                <p>System will check for suspicious activity</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="agreeTerms"> 
+                            I agree to the terms and conditions and understand the validation process
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Success Step -->
+                <div class="form-step" id="successStep">
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h3 id="successTitle">Donation Submitted Successfully!</h3>
+                        <p id="successMessage">Thank you for your generosity! Your donation has been received and is now undergoing our validation process. We'll contact you shortly to coordinate the pickup.</p>
+                        <button class="btn btn-primary" onclick="closeModalAndReset()">Donate to Another NGO</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer" id="modalFooter">
+                <button class="btn btn-secondary" id="prevBtn">Previous</button>
+                <button class="btn btn-primary" id="nextBtn">Next</button>
             </div>
         </div>
     </div>
+
+    <script>
+        // Track donations per NGO
+        let donatedNGOs = new Set();
+        let currentStep = 1;
+        let selectedTiming = '';
+        let currentNgoId = null;
+        let ngos = [];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadApprovedNGOs();
+            setupFilters();
+            setupModal();
+            
+            // Set minimum date for schedule
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('preferredDate').min = today;
+        });
+
+        // Load approved NGOs from backend
+        async function loadApprovedNGOs() {
+            try {
+                const response = await fetch('/api/approved-ngos');
+                ngos = await response.json();
+                
+                // Also load approved requirements to show priority items
+                const requirementsResponse = await fetch('/api/approved-requirements');
+                const requirements = await requirementsResponse.json();
+                
+                // Enhance NGOs with their requirements as priorities
+                ngos.forEach(ngo => {
+                    ngo.priority = requirements
+                        .filter(req => req.ngo_id === ngo.id)
+                        .map(req => req.category.toLowerCase());
+                    // Add default location and category for filtering
+                    ngo.location = ngo.location || 'downtown';
+                    ngo.category = ngo.category || 'children';
+                });
+                
+                renderNGOs(ngos);
+            } catch (error) {
+                console.error('Error loading NGOs:', error);
+                // Fallback to sample data
+                ngos = [
+                    { id: 1, name: "Children's Hope Foundation", category: "children", location: "downtown", priority: ["food", "books"], image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" },
+                    { id: 2, name: "Elder Care Alliance", category: "elderly", location: "suburbs", priority: ["food", "clothes"], image: "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" }
+                ];
+                renderNGOs(ngos);
+            }
+        }
+
+        // Render NGOs to the grid
+        function renderNGOs(ngosToRender) {
+            const ngoList = document.getElementById('ngoList');
+            ngoList.innerHTML = '';
+
+            ngosToRender.forEach(ngo => {
+                const hasDonatedToThisNGO = donatedNGOs.has(ngo.id);
+                
+                const ngoCard = document.createElement('div');
+                ngoCard.className = 'ngo-card';
+                ngoCard.innerHTML = `
+                    ${ngo.priority && ngo.priority.includes('food') ? '<div class="priority-badge">Priority: Food</div>' : ''}
+                    <img src="${ngo.image || 'https://images.unsplash.com/photo-1502759683299-cdcd6974244f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'}" alt="${ngo.name}">
+                    <div class="ngo-info">
+                        <h3 class="ngo-name">${ngo.name}</h3>
+                        <div class="ngo-category">
+                            <i class="fas fa-tag"></i> ${(ngo.category || 'General').charAt(0).toUpperCase() + (ngo.category || 'General').slice(1)}
+                        </div>
+                        <div class="ngo-location">
+                            <i class="fas fa-map-marker-alt"></i> ${getLocationText(ngo.location)}
+                        </div>
+                        <button class="donate-button ${hasDonatedToThisNGO ? 'quick-donate' : ''}" onclick="openDonationModal(${ngo.id})">
+                            <i class="fas fa-donate"></i> ${hasDonatedToThisNGO ? 'Quick Donate' : 'Donate Now'}
+                        </button>
+                    </div>
+                `;
+                ngoList.appendChild(ngoCard);
+            });
+        }
+
+        function getLocationText(location) {
+            const locations = {
+                'downtown': 'Downtown Area',
+                'suburbs': 'Suburban Area', 
+                'rural': 'Rural Area',
+                'coastal': 'Coastal Area'
+            };
+            return locations[location] || location;
+        }
+
+        // Setup filter functionality
+        function setupFilters() {
+            const areaFilter = document.getElementById('areaFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const priorityTags = document.querySelectorAll('.priority-tag');
+
+            [areaFilter, categoryFilter].forEach(filter => {
+                filter.addEventListener('change', filterNGOs);
+            });
+
+            priorityTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    filterNGOs();
+                });
+            });
+        }
+
+        function filterNGOs() {
+            const area = document.getElementById('areaFilter').value;
+            const category = document.getElementById('categoryFilter').value;
+            const activePriorityTags = Array.from(document.querySelectorAll('.priority-tag.active'))
+                .map(tag => tag.getAttribute('data-type'));
+
+            const filteredNGOs = ngos.filter(ngo => {
+                const areaMatch = !area || ngo.location === area;
+                const categoryMatch = !category || ngo.category === category;
+                
+                const priorityMatch = activePriorityTags.length === 0 || 
+                    (ngo.priority && activePriorityTags.some(priority => ngo.priority.includes(priority)));
+                
+                return areaMatch && categoryMatch && priorityMatch;
+            });
+
+            renderNGOs(filteredNGOs);
+        }
+
+        // Modal functionality
+        function setupModal() {
+            const modal = document.getElementById('donationModal');
+            const closeBtn = document.getElementById('closeModal');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const timelineOptions = document.querySelectorAll('.timeline-option');
+
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+                resetDonationForm();
+            });
+
+            // Timeline selection
+            timelineOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    timelineOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    selectedTiming = this.dataset.timing;
+                });
+            });
+
+            // Navigation between steps
+            nextBtn.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    if (currentStep < 4) {
+                        showStep(currentStep + 1);
+                    } else {
+                        submitDonation();
+                    }
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    showStep(currentStep - 1);
+                }
+            });
+
+            function showStep(step) {
+                document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+                
+                if (step === 3 && selectedTiming === 'later') {
+                    document.getElementById('step3-later').classList.add('active');
+                } else if (step === 3 && selectedTiming === 'now') {
+                    document.getElementById('step3-now').classList.add('active');
+                } else {
+                    document.getElementById(`step${step}`).classList.add('active');
+                }
+                
+                prevBtn.style.display = step === 1 ? 'none' : 'block';
+                nextBtn.textContent = step === 4 ? 'Submit Donation' : 'Next';
+                
+                currentStep = step;
+            }
+
+            function validateStep(step) {
+                if (step === 1 && !selectedTiming) {
+                    alert('Please select when your donation is available');
+                    return false;
+                }
+                if (step === 2) {
+                    const itemType = document.getElementById('itemType').value;
+                    const itemDescription = document.getElementById('itemDescription').value;
+                    if (!itemType || !itemDescription) {
+                        alert('Please fill in all required donation details');
+                        return false;
+                    }
+                }
+                if (step === 3) {
+                    let name, email, phone;
+                    if (selectedTiming === 'now') {
+                        name = document.getElementById('donorName').value;
+                        email = document.getElementById('donorEmail').value;
+                        phone = document.getElementById('donorPhone').value;
+                    } else {
+                        name = document.getElementById('donorNameLater').value;
+                        email = document.getElementById('donorEmailLater').value;
+                        phone = document.getElementById('donorPhoneLater').value;
+                    }
+                    if (!name || !email || !phone) {
+                        alert('Please fill in all required contact information');
+                        return false;
+                    }
+                }
+                if (step === 4 && !document.getElementById('agreeTerms').checked) {
+                    alert('Please agree to the terms and conditions');
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        // Open donation modal
+        function openDonationModal(ngoId) {
+            currentNgoId = ngoId;
+            const ngo = ngos.find(n => n.id === ngoId);
+            
+            if (donatedNGOs.has(ngoId)) {
+                showQuickDonation(ngoId);
+                return;
+            }
+            
+            const modal = document.getElementById('donationModal');
+            modal.style.display = 'flex';
+            
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+            
+            document.getElementById('modalTitle').textContent = `Donate to ${ngo.name}`;
+            
+            currentStep = 1;
+            selectedTiming = '';
+            document.getElementById('prevBtn').style.display = 'none';
+            document.getElementById('nextBtn').textContent = 'Next';
+            document.querySelectorAll('.timeline-option').forEach(opt => opt.classList.remove('active'));
+        }
+
+        function showQuickDonation(ngoId) {
+            const ngo = ngos.find(n => n.id === ngoId);
+            const modal = document.getElementById('donationModal');
+            modal.style.display = 'flex';
+            
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('successStep').classList.add('active');
+            document.getElementById('modalTitle').textContent = `Thank You!`;
+            document.getElementById('successTitle').textContent = `Already Donated to ${ngo.name}`;
+            document.getElementById('successMessage').textContent = `You've already made a donation to ${ngo.name}. Thank you for your continued support!`;
+            document.getElementById('modalFooter').style.display = 'none';
+        }
+
+        async function submitDonation() {
+            const ngo = ngos.find(n => n.id === currentNgoId);
+            
+            // Collect all form data
+            const formData = {
+                ngoId: currentNgoId,
+                ngoName: ngo.name,
+                fullName: selectedTiming === 'now' ? 
+                    document.getElementById('donorName').value : 
+                    document.getElementById('donorNameLater').value,
+                email: selectedTiming === 'now' ? 
+                    document.getElementById('donorEmail').value : 
+                    document.getElementById('donorEmailLater').value,
+                phone: selectedTiming === 'now' ? 
+                    document.getElementById('donorPhone').value : 
+                    document.getElementById('donorPhoneLater').value,
+                itemType: document.getElementById('itemType').value,
+                itemDescription: document.getElementById('itemDescription').value,
+                quantity: document.getElementById('itemQuantity').value,
+                pickupAddress: selectedTiming === 'now' ? 
+                    document.getElementById('pickupAddress').value : 
+                    document.getElementById('pickupAddressLater').value,
+                contactInfo: selectedTiming === 'now' ?
+                    document.getElementById('donorPhone').value :
+                    document.getElementById('donorPhoneLater').value,
+                timing: selectedTiming,
+                preferredDate: selectedTiming === 'later' ? document.getElementById('preferredDate').value : null,
+                preferredTime: selectedTiming === 'later' ? document.getElementById('preferredTime').value : null
+            };
+
+            try {
+                const response = await fetch('/submit-donation', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    donatedNGOs.add(currentNgoId);
+                    
+                    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+                    document.getElementById('successStep').classList.add('active');
+                    document.getElementById('modalTitle').textContent = `Thank You!`;
+                    document.getElementById('successTitle').textContent = `Donation to ${ngo.name} Submitted!`;
+                    document.getElementById('successMessage').textContent = result.message;
+                    document.getElementById('modalFooter').style.display = 'none';
+                    
+                    renderNGOs(ngos);
+                } else {
+                    alert('Failed to submit donation: ' + result.message);
+                }
+                
+            } catch (error) {
+                console.error('Error submitting donation:', error);
+                alert('An error occurred while submitting your donation. Please try again.');
+            }
+        }
+
+        function closeModalAndReset() {
+            const modal = document.getElementById('donationModal');
+            modal.style.display = 'none';
+            resetDonationForm();
+        }
+
+        function resetDonationForm() {
+            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step1').classList.add('active');
+            document.querySelectorAll('input, select, textarea').forEach(element => {
+                if (element.type !== 'button' && element.type !== 'submit') {
+                    element.value = '';
+                }
+            });
+            document.querySelectorAll('.timeline-option').forEach(opt => opt.classList.remove('active'));
+            document.getElementById('agreeTerms').checked = false;
+            document.getElementById('modalFooter').style.display = 'flex';
+            selectedTiming = '';
+            currentStep = 1;
+        }
+    </script>
 </body>
 </html>
