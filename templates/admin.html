@@ -539,7 +539,7 @@
 
         .modal-header {
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
@@ -879,8 +879,37 @@
                 populateNGOTable(data.pending_ngos);
                 populateRequirementsTable(data.pending_requirements);
                 
+                // Save to localStorage for persistence
+                localStorage.setItem('adminStats', JSON.stringify(data.stats));
+                localStorage.setItem('adminDonations', JSON.stringify(data.pending_donations));
+                localStorage.setItem('adminNGOs', JSON.stringify(data.pending_ngos));
+                localStorage.setItem('adminRequirements', JSON.stringify(data.pending_requirements));
+                localStorage.setItem('lastAdminUpdate', new Date().toISOString());
+                
             } catch (error) {
                 console.error('Error loading admin data:', error);
+                // Try to load from localStorage if API fails
+                loadFromLocalStorage();
+            }
+        }
+
+        function loadFromLocalStorage() {
+            const savedStats = localStorage.getItem('adminStats');
+            const savedDonations = localStorage.getItem('adminDonations');
+            const savedNGOs = localStorage.getItem('adminNGOs');
+            const savedRequirements = localStorage.getItem('adminRequirements');
+            
+            if (savedStats) {
+                updateStats(JSON.parse(savedStats));
+            }
+            if (savedDonations) {
+                populateDonationsTable(JSON.parse(savedDonations));
+            }
+            if (savedNGOs) {
+                populateNGOTable(JSON.parse(savedNGOs));
+            }
+            if (savedRequirements) {
+                populateRequirementsTable(JSON.parse(savedRequirements));
             }
         }
 
@@ -893,6 +922,18 @@
         function populateDonationsTable(donations) {
             const tbody = document.getElementById('donationsTableBody');
             tbody.innerHTML = '';
+            
+            if (donations.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #888; padding: 40px;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                            No pending donations found
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
             
             donations.forEach(donation => {
                 const row = document.createElement('tr');
@@ -932,6 +973,18 @@
             const tbody = document.getElementById('ngoTableBody');
             tbody.innerHTML = '';
             
+            if (ngos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #888; padding: 40px;">
+                            <i class="fas fa-building" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                            No pending NGO registrations
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
             ngos.forEach(ngo => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -968,6 +1021,18 @@
             const tbody = document.getElementById('requirementsTableBody');
             tbody.innerHTML = '';
             
+            if (requirements.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" style="text-align: center; color: #888; padding: 40px;">
+                            <i class="fas fa-hand-holding-heart" style="font-size: 3rem; margin-bottom: 15px; display: block;"></i>
+                            No pending requirements
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
             requirements.forEach(req => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -1002,6 +1067,245 @@
             });
         }
 
+        // REAL MODAL FUNCTIONS - FETCH ACTUAL DATA FROM DATABASE
+        async function viewNGODetails(ngoId) {
+            try {
+                const response = await fetch(`/api/ngo-details/${ngoId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch NGO details');
+                }
+                const ngo = await response.json();
+                
+                if (ngo.error) {
+                    document.getElementById('ngo-details').innerHTML = `<p style="color: #f44336; text-align: center;">Error: ${ngo.error}</p>`;
+                } else {
+                    const details = `
+                        <div class="detail-row">
+                            <div class="detail-label">NGO Name:</div>
+                            <div class="detail-value">${ngo.name || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Contact Person:</div>
+                            <div class="detail-value">${ngo.contact_person || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Email:</div>
+                            <div class="detail-value">${ngo.email || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Phone:</div>
+                            <div class="detail-value">${ngo.phone || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Registration Number:</div>
+                            <div class="detail-value">${ngo.registration_number || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Address:</div>
+                            <div class="detail-value">${ngo.address || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Mission:</div>
+                            <div class="detail-value">${ngo.mission || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Focus Areas:</div>
+                            <div class="detail-value">${ngo.focus_areas || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${ngo.status || 'pending'}">
+                                    ${(ngo.status || 'pending').charAt(0).toUpperCase() + (ngo.status || 'pending').slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Submitted On:</div>
+                            <div class="detail-value">${ngo.created_at ? new Date(ngo.created_at).toLocaleString() : 'N/A'}</div>
+                        </div>
+                        ${ngo.admin_notes ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Admin Notes:</div>
+                            <div class="detail-value">${ngo.admin_notes}</div>
+                        </div>
+                        ` : ''}
+                    `;
+                    document.getElementById('ngo-details').innerHTML = details;
+                }
+                document.getElementById('ngo-modal').style.display = 'flex';
+            } catch (error) {
+                console.error('Error fetching NGO details:', error);
+                document.getElementById('ngo-details').innerHTML = `
+                    <div style="text-align: center; color: #f44336; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>Error loading NGO details. Please try again.</p>
+                    </div>
+                `;
+                document.getElementById('ngo-modal').style.display = 'flex';
+            }
+        }
+
+        async function viewDonationDetails(donationId) {
+            try {
+                const response = await fetch(`/api/donation-details/${donationId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch donation details');
+                }
+                const donation = await response.json();
+                
+                if (donation.error) {
+                    document.getElementById('donation-details').innerHTML = `<p style="color: #f44336; text-align: center;">Error: ${donation.error}</p>`;
+                } else {
+                    const details = `
+                        <div class="detail-row">
+                            <div class="detail-label">Donor Name:</div>
+                            <div class="detail-value">${donation.full_name || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Email:</div>
+                            <div class="detail-value">${donation.email || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Phone:</div>
+                            <div class="detail-value">${donation.phone || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Item Description:</div>
+                            <div class="detail-value">${donation.item_description || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Category:</div>
+                            <div class="detail-value">${donation.category || 'General'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Quantity:</div>
+                            <div class="detail-value">${donation.quantity || 'Not specified'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Pickup Address:</div>
+                            <div class="detail-value">${donation.address || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${donation.status || 'pending'}">
+                                    ${(donation.status || 'pending').charAt(0).toUpperCase() + (donation.status || 'pending').slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Submitted On:</div>
+                            <div class="detail-value">${donation.created_at ? new Date(donation.created_at).toLocaleString() : 'N/A'}</div>
+                        </div>
+                        ${donation.admin_notes ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Admin Notes:</div>
+                            <div class="detail-value">${donation.admin_notes}</div>
+                        </div>
+                        ` : ''}
+                    `;
+                    document.getElementById('donation-details').innerHTML = details;
+                }
+                document.getElementById('donation-modal').style.display = 'flex';
+            } catch (error) {
+                console.error('Error fetching donation details:', error);
+                document.getElementById('donation-details').innerHTML = `
+                    <div style="text-align: center; color: #f44336; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>Error loading donation details. Please try again.</p>
+                    </div>
+                `;
+                document.getElementById('donation-modal').style.display = 'flex';
+            }
+        }
+
+        async function viewRequirementDetails(reqId) {
+            try {
+                const response = await fetch(`/api/requirement-details/${reqId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch requirement details');
+                }
+                const req = await response.json();
+                
+                if (req.error) {
+                    document.getElementById('requirement-details').innerHTML = `<p style="color: #f44336; text-align: center;">Error: ${req.error}</p>`;
+                } else {
+                    const details = `
+                        <div class="detail-row">
+                            <div class="detail-label">NGO Name:</div>
+                            <div class="detail-value">${req.ngo_name || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Requirement Title:</div>
+                            <div class="detail-value">${req.title || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Description:</div>
+                            <div class="detail-value">${req.description || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Category:</div>
+                            <div class="detail-value">${req.category || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Quantity Needed:</div>
+                            <div class="detail-value">${req.quantity || 'N/A'}</div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Urgency:</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${req.urgency || 'medium'}">
+                                    ${(req.urgency || 'medium').charAt(0).toUpperCase() + (req.urgency || 'medium').slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="detail-row">
+                            <div class="detail-label">Status:</div>
+                            <div class="detail-value">
+                                <span class="status-badge status-${req.status || 'pending'}">
+                                    ${(req.status || 'pending').charAt(0).toUpperCase() + (req.status || 'pending').slice(1)}
+                                </span>
+                            </div>
+                        </div>
+                        ${req.deadline ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Deadline:</div>
+                            <div class="detail-value">${new Date(req.deadline).toLocaleDateString()}</div>
+                        </div>
+                        ` : ''}
+                        ${req.specific_requirements ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Specific Requirements:</div>
+                            <div class="detail-value">${req.specific_requirements}</div>
+                        </div>
+                        ` : ''}
+                        <div class="detail-row">
+                            <div class="detail-label">Submitted On:</div>
+                            <div class="detail-value">${req.created_at ? new Date(req.created_at).toLocaleString() : 'N/A'}</div>
+                        </div>
+                        ${req.admin_notes ? `
+                        <div class="detail-row">
+                            <div class="detail-label">Admin Notes:</div>
+                            <div class="detail-value">${req.admin_notes}</div>
+                        </div>
+                        ` : ''}
+                    `;
+                    document.getElementById('requirement-details').innerHTML = details;
+                }
+                document.getElementById('requirement-modal').style.display = 'flex';
+            } catch (error) {
+                console.error('Error fetching requirement details:', error);
+                document.getElementById('requirement-details').innerHTML = `
+                    <div style="text-align: center; color: #f44336; padding: 20px;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 15px;"></i>
+                        <p>Error loading requirement details. Please try again.</p>
+                    </div>
+                `;
+                document.getElementById('requirement-modal').style.display = 'flex';
+            }
+        }
+
         // Approval functions that actually call the backend
         async function approveDonation(donationId) {
             if (confirm('Are you sure you want to approve this donation?')) {
@@ -1025,7 +1329,8 @@
         }
 
         async function rejectDonation(donationId) {
-            if (confirm('Are you sure you want to reject this donation?')) {
+            const reason = prompt('Please provide a reason for rejecting this donation:');
+            if (reason !== null && reason.trim() !== '') {
                 try {
                     const response = await fetch(`/admin/donation/reject/${donationId}`, {
                         method: 'POST'
@@ -1067,7 +1372,8 @@
         }
 
         async function rejectNGO(ngoId) {
-            if (confirm('Are you sure you want to reject this NGO?')) {
+            const reason = prompt('Please provide a reason for rejecting this NGO:');
+            if (reason !== null && reason.trim() !== '') {
                 try {
                     const response = await fetch(`/admin/ngo/reject/${ngoId}`, {
                         method: 'POST'
@@ -1109,7 +1415,8 @@
         }
 
         async function rejectRequirement(reqId) {
-            if (confirm('Are you sure you want to reject this requirement?')) {
+            const reason = prompt('Please provide a reason for rejecting this requirement:');
+            if (reason !== null && reason.trim() !== '') {
                 try {
                     const response = await fetch(`/admin/requirement/reject/${reqId}`, {
                         method: 'POST'
@@ -1274,147 +1581,6 @@
             });
         }
 
-        // Modal functions
-        function viewDonationDetails(id) {
-            // In a real app, this would fetch data from the server
-            const details = `
-                <div class="detail-row">
-                    <div class="detail-label">Donor Name:</div>
-                    <div class="detail-value">John Doe</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Email:</div>
-                    <div class="detail-value">john@example.com</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Phone:</div>
-                    <div class="detail-value">+1 234 567 8900</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Item Description:</div>
-                    <div class="detail-value">Winter coats for children, sizes 5-12. All items are in good condition.</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Category:</div>
-                    <div class="detail-value">Clothing</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Quantity:</div>
-                    <div class="detail-value">15 items</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Pickup Address:</div>
-                    <div class="detail-value">123 Main St, Anytown, USA</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Submitted On:</div>
-                    <div class="detail-value">2023-11-15 14:30</div>
-                </div>
-            `;
-            document.getElementById('donation-details').innerHTML = details;
-            document.getElementById('donation-modal').style.display = 'flex';
-        }
-
-        function viewNGODetails(id) {
-            // In a real app, this would fetch data from the server
-            const details = `
-                <div class="detail-row">
-                    <div class="detail-label">NGO Name:</div>
-                    <div class="detail-value">Hope for Children Foundation</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Contact Person:</div>
-                    <div class="detail-value">Michael Brown</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Email:</div>
-                    <div class="detail-value">michael@hopefoundation.org</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Phone:</div>
-                    <div class="detail-value">+1 234 567 8910</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Registration Number:</div>
-                    <div class="detail-value">NGO-2023-001</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Address:</div>
-                    <div class="detail-value">456 NGO Street, Charity City, USA</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Mission:</div>
-                    <div class="detail-value">Providing education and healthcare to underprivileged children in rural areas.</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Focus Areas:</div>
-                    <div class="detail-value">Education, Healthcare, Child Welfare</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Year Established:</div>
-                    <div class="detail-value">2015</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Submitted On:</div>
-                    <div class="detail-value">2023-11-10 10:15</div>
-                </div>
-            `;
-            document.getElementById('ngo-details').innerHTML = details;
-            document.getElementById('ngo-modal').style.display = 'flex';
-        }
-
-        function viewRequirementDetails(id) {
-            // In a real app, this would fetch data from the server
-            const details = `
-                <div class="detail-row">
-                    <div class="detail-label">NGO Name:</div>
-                    <div class="detail-value">Hope for Children Foundation</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Requirement Title:</div>
-                    <div class="detail-value">Winter Clothing Drive</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Description:</div>
-                    <div class="detail-value">We are collecting winter coats, sweaters, boots, and warm accessories for children aged 5-12 in rural communities. Many children in these areas lack proper winter clothing, making it difficult for them to attend school during cold months.</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Category:</div>
-                    <div class="detail-value">Clothing</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Urgency:</div>
-                    <div class="detail-value">High - Needed before winter season starts</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Target Quantity:</div>
-                    <div class="detail-value">200 sets of winter clothing</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Size Requirements:</div>
-                    <div class="detail-value">Children sizes 5-12, both boys and girls</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Condition:</div>
-                    <div class="detail-value">New or gently used (clean and in good condition)</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Distribution Area:</div>
-                    <div class="detail-value">Rural communities in Northern regions</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Deadline:</div>
-                    <div class="detail-value">2023-12-15</div>
-                </div>
-                <div class="detail-row">
-                    <div class="detail-label">Submitted On:</div>
-                    <div class="detail-value">2023-11-12 09:45</div>
-                </div>
-            `;
-            document.getElementById('requirement-details').innerHTML = details;
-            document.getElementById('requirement-modal').style.display = 'flex';
-        }
-
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
@@ -1424,6 +1590,23 @@
             if (event.target.classList.contains('modal')) {
                 event.target.style.display = 'none';
             }
+        }
+
+        // Filter function for donations
+        function filterDonations() {
+            const statusFilter = document.getElementById('donation-status-filter').value;
+            const rows = document.querySelectorAll('#donationsTableBody tr');
+            
+            rows.forEach(row => {
+                if (row.cells.length > 1) { // Skip empty message rows
+                    const status = row.cells[5].textContent.toLowerCase().trim();
+                    if (statusFilter === 'all' || status === statusFilter) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            });
         }
     </script>
 </body>

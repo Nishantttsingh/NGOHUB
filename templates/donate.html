@@ -986,8 +986,8 @@
     </div>
 
     <script>
-        // Track donations per NGO
-        let donatedNGOs = new Set();
+        // Track donations per NGO with localStorage persistence
+        let donatedNGOs = new Set(JSON.parse(localStorage.getItem('donatedNGOs') || '[]'));
         let currentStep = 1;
         let selectedTiming = '';
         let currentNgoId = null;
@@ -1002,7 +1002,42 @@
             // Set minimum date for schedule
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('preferredDate').min = today;
+            
+            // Load filter states from localStorage
+            loadFilterStates();
         });
+
+        // Save filter states to localStorage
+        function saveFilterStates() {
+            const filterStates = {
+                area: document.getElementById('areaFilter').value,
+                category: document.getElementById('categoryFilter').value,
+                priorityTags: Array.from(document.querySelectorAll('.priority-tag.active'))
+                    .map(tag => tag.getAttribute('data-type'))
+            };
+            localStorage.setItem('donateFilterStates', JSON.stringify(filterStates));
+        }
+
+        // Load filter states from localStorage
+        function loadFilterStates() {
+            const savedFilters = localStorage.getItem('donateFilterStates');
+            if (savedFilters) {
+                const filters = JSON.parse(savedFilters);
+                document.getElementById('areaFilter').value = filters.area;
+                document.getElementById('categoryFilter').value = filters.category;
+                
+                // Reset all priority tags
+                document.querySelectorAll('.priority-tag').forEach(tag => {
+                    tag.classList.remove('active');
+                });
+                
+                // Activate saved priority tags
+                filters.priorityTags.forEach(priority => {
+                    const tag = document.querySelector(`.priority-tag[data-type="${priority}"]`);
+                    if (tag) tag.classList.add('active');
+                });
+            }
+        }
 
         // Load approved NGOs from backend
         async function loadApprovedNGOs() {
@@ -1024,9 +1059,24 @@
                     ngo.category = ngo.category || 'children';
                 });
                 
+                // Save to localStorage for persistence
+                localStorage.setItem('approvedNGOs', JSON.stringify(ngos));
+                localStorage.setItem('lastNGOLoad', new Date().toISOString());
+                
                 renderNGOs(ngos);
             } catch (error) {
                 console.error('Error loading NGOs:', error);
+                // Try to load from localStorage if API fails
+                loadNGOsFromLocalStorage();
+            }
+        }
+
+        function loadNGOsFromLocalStorage() {
+            const savedNGOs = localStorage.getItem('approvedNGOs');
+            if (savedNGOs) {
+                ngos = JSON.parse(savedNGOs);
+                renderNGOs(ngos);
+            } else {
                 // Fallback to sample data
                 ngos = [
                     { id: 1, name: "Children's Hope Foundation", category: "children", location: "downtown", priority: ["food", "books"], image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" },
@@ -1083,13 +1133,17 @@
             const priorityTags = document.querySelectorAll('.priority-tag');
 
             [areaFilter, categoryFilter].forEach(filter => {
-                filter.addEventListener('change', filterNGOs);
+                filter.addEventListener('change', function() {
+                    filterNGOs();
+                    saveFilterStates();
+                });
             });
 
             priorityTags.forEach(tag => {
                 tag.addEventListener('click', function() {
                     this.classList.toggle('active');
                     filterNGOs();
+                    saveFilterStates();
                 });
             });
         }
@@ -1280,14 +1334,16 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                    },
+                        },
                     body: JSON.stringify(formData)
                 });
 
                 const result = await response.json();
                 
                 if (result.success) {
+                    // Add to donated NGOs and save to localStorage
                     donatedNGOs.add(currentNgoId);
+                    localStorage.setItem('donatedNGOs', JSON.stringify([...donatedNGOs]));
                     
                     document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
                     document.getElementById('successStep').classList.add('active');

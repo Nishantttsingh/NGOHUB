@@ -194,6 +194,9 @@ def ngo_register():
     mission = request.form.get('mission')
     focus_areas = ','.join(request.form.getlist('focusAreas'))
     
+    # Store email in session for tracking
+    session['last_ngo_email'] = email
+    
     # Handle file uploads
     documents = request.files.getlist('registrationDocs')
     documents_paths = []
@@ -280,6 +283,176 @@ def ngo_add_requirement():
             'message': 'An error occurred while submitting the requirement.'
         })
 
+# ===== NGO PORTAL API ROUTES =====
+
+@app.route('/api/ngo/registrations')
+def get_ngo_registrations():
+    """Get all NGO registrations (for demo - shows all NGOs)"""
+    try:
+        ngos = execute_query(
+            "SELECT * FROM ngos ORDER BY created_at DESC", 
+            fetch=True
+        ) or []
+        return jsonify(ngos)
+    except Exception as e:
+        print(f"Error fetching NGO registrations: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/requirements')
+def get_ngo_requirements():
+    """Get all NGO requirements"""
+    try:
+        requirements = execute_query(
+            """SELECT nr.*, n.name as ngo_name 
+            FROM ngo_requirements nr 
+            JOIN ngos n ON nr.ngo_id = n.id 
+            ORDER BY nr.created_at DESC""",
+            fetch=True
+        ) or []
+        return jsonify(requirements)
+    except Exception as e:
+        print(f"Error fetching NGO requirements: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/donations')
+def get_ngo_donations():
+    """Get all donations"""
+    try:
+        donations = execute_query(
+            """SELECT d.*, r.title as requirement_title, n.name as ngo_name
+            FROM donations d
+            LEFT JOIN ngo_requirements r ON d.requirement_id = r.id
+            LEFT JOIN ngos n ON r.ngo_id = n.id
+            ORDER BY d.created_at DESC""",
+            fetch=True
+        ) or []
+        return jsonify(donations)
+    except Exception as e:
+        print(f"Error fetching NGO donations: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/my-registrations')
+def get_my_ngo_registrations():
+    """Get NGO registrations by email"""
+    try:
+        # Get email from session or use default for demo
+        email = session.get('last_ngo_email', 'hope@children.org')
+        
+        ngos = execute_query(
+            "SELECT * FROM ngos WHERE email = %s ORDER BY created_at DESC", 
+            (email,), 
+            fetch=True
+        ) or []
+        return jsonify(ngos)
+    except Exception as e:
+        print(f"Error fetching my NGO registrations: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/my-requirements')
+def get_my_ngo_requirements():
+    """Get requirements for NGO by email"""
+    try:
+        email = session.get('last_ngo_email', 'hope@children.org')
+        
+        requirements = execute_query(
+            """SELECT nr.*, n.name as ngo_name 
+            FROM ngo_requirements nr 
+            JOIN ngos n ON nr.ngo_id = n.id 
+            WHERE n.email = %s 
+            ORDER BY nr.created_at DESC""",
+            (email,), 
+            fetch=True
+        ) or []
+        return jsonify(requirements)
+    except Exception as e:
+        print(f"Error fetching my NGO requirements: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/my-donations')
+def get_my_ngo_donations():
+    """Get donations for NGO's requirements by email"""
+    try:
+        email = session.get('last_ngo_email', 'hope@children.org')
+        
+        donations = execute_query(
+            """SELECT d.*, r.title as requirement_title, n.name as ngo_name
+            FROM donations d
+            JOIN ngo_requirements r ON d.requirement_id = r.id
+            JOIN ngos n ON r.ngo_id = n.id
+            WHERE n.email = %s
+            ORDER BY d.created_at DESC""",
+            (email,), 
+            fetch=True
+        ) or []
+        return jsonify(donations)
+    except Exception as e:
+        print(f"Error fetching my NGO donations: {e}")
+        return jsonify([])
+
+@app.route('/api/ngo/dashboard-data')
+def get_ngo_dashboard_data():
+    """Get comprehensive dashboard data for NGO"""
+    try:
+        email = session.get('last_ngo_email', 'hope@children.org')
+        
+        # Get NGO info
+        ngo_info = execute_query(
+            "SELECT * FROM ngos WHERE email = %s", 
+            (email,), 
+            fetch=True
+        ) or []
+        
+        # Get requirements
+        requirements = execute_query(
+            """SELECT nr.*, n.name as ngo_name 
+            FROM ngo_requirements nr 
+            JOIN ngos n ON nr.ngo_id = n.id 
+            WHERE n.email = %s 
+            ORDER BY nr.created_at DESC""",
+            (email,), 
+            fetch=True
+        ) or []
+        
+        # Get donations
+        donations = execute_query(
+            """SELECT d.*, r.title as requirement_title, n.name as ngo_name
+            FROM donations d
+            JOIN ngo_requirements r ON d.requirement_id = r.id
+            JOIN ngos n ON r.ngo_id = n.id
+            WHERE n.email = %s
+            ORDER BY d.created_at DESC""",
+            (email,), 
+            fetch=True
+        ) or []
+        
+        # Get stats
+        stats = execute_query(
+            """SELECT 
+                (SELECT COUNT(*) FROM ngo_requirements nr 
+                 JOIN ngos n ON nr.ngo_id = n.id 
+                 WHERE n.email = %s AND nr.status = 'approved') as approved_requirements,
+                (SELECT COUNT(*) FROM ngo_requirements nr 
+                 JOIN ngos n ON nr.ngo_id = n.id 
+                 WHERE n.email = %s AND nr.status = 'pending') as pending_requirements,
+                (SELECT COUNT(*) FROM donations d 
+                 JOIN ngo_requirements r ON d.requirement_id = r.id 
+                 JOIN ngos n ON r.ngo_id = n.id 
+                 WHERE n.email = %s AND d.status = 'approved') as approved_donations
+            """,
+            (email, email, email), 
+            fetch=True
+        ) or [{}]
+        
+        return jsonify({
+            'ngo_info': ngo_info[0] if ngo_info else {},
+            'requirements': requirements,
+            'donations': donations,
+            'stats': stats[0] if stats else {}
+        })
+    except Exception as e:
+        print(f"Error fetching NGO dashboard data: {e}")
+        return jsonify({'error': 'Failed to load dashboard data'}), 500
+
 # ===== ENHANCED ADMIN ROUTES =====
 
 @app.route('/admin')
@@ -323,6 +496,57 @@ def admin_data():
     except Exception as e:
         print(f"Error in admin_data: {e}")
         return jsonify({'error': 'Failed to load admin data'}), 500
+
+# NEW API ROUTES FOR MODAL DATA
+@app.route('/api/ngo-details/<int:ngo_id>')
+def get_ngo_details(ngo_id):
+    try:
+        ngo = execute_query(
+            "SELECT * FROM ngos WHERE id = %s", 
+            (ngo_id,), 
+            fetch=True
+        )
+        if ngo:
+            return jsonify(ngo[0])
+        else:
+            return jsonify({'error': 'NGO not found'}), 404
+    except Exception as e:
+        print(f"Error fetching NGO details: {e}")
+        return jsonify({'error': 'Failed to fetch NGO details'}), 500
+
+@app.route('/api/donation-details/<int:donation_id>')
+def get_donation_details(donation_id):
+    try:
+        donation = execute_query(
+            "SELECT * FROM donations WHERE id = %s", 
+            (donation_id,), 
+            fetch=True
+        )
+        if donation:
+            return jsonify(donation[0])
+        else:
+            return jsonify({'error': 'Donation not found'}), 404
+    except Exception as e:
+        print(f"Error fetching donation details: {e}")
+        return jsonify({'error': 'Failed to fetch donation details'}), 500
+
+@app.route('/api/requirement-details/<int:req_id>')
+def get_requirement_details(req_id):
+    try:
+        requirement = execute_query('''
+            SELECT nr.*, n.name as ngo_name 
+            FROM ngo_requirements nr 
+            JOIN ngos n ON nr.ngo_id = n.id 
+            WHERE nr.id = %s
+        ''', (req_id,), fetch=True)
+        
+        if requirement:
+            return jsonify(requirement[0])
+        else:
+            return jsonify({'error': 'Requirement not found'}), 404
+    except Exception as e:
+        print(f"Error fetching requirement details: {e}")
+        return jsonify({'error': 'Failed to fetch requirement details'}), 500
 
 # Route to get approved NGOs for donate page
 @app.route('/api/approved-ngos')

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGO Registration | NGO-HUB</title>
+    <title>NGO Portal | NGO-HUB</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -424,6 +424,11 @@
             color: #f44336;
         }
 
+        .status-completed {
+            background: rgba(33, 150, 243, 0.2);
+            color: #2196f3;
+        }
+
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -456,6 +461,25 @@
 
         .delete-btn:hover {
             background: #f44336;
+            color: white;
+        }
+
+        .refresh-btn {
+            background: rgba(170, 150, 218, 0.1);
+            color: #aa96da;
+            border: 1px solid #aa96da;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .refresh-btn:hover {
+            background: #aa96da;
             color: white;
         }
 
@@ -535,6 +559,17 @@
             max-width: 500px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #5a5766;
+        }
+
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
         /* Responsive Design */
@@ -764,13 +799,22 @@
             <!-- Status Tab -->
             <div class="tab-content" id="status-tab">
                 <div class="data-section">
-                    <h2 class="section-title">
-                        <i class="fas fa-clipboard-check"></i>
-                        Registration & Requirements Status
-                    </h2>
-                    <p style="margin-bottom: 25px; color: #5a5766;">Check the status of your NGO registration and submitted requirements.</p>
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+                        <h2 class="section-title" style="margin-bottom: 0;">
+                            <i class="fas fa-clipboard-check"></i>
+                            Registration & Requirements Status
+                        </h2>
+                        <button class="refresh-btn" onclick="loadRealTimeData()">
+                            <i class="fas fa-sync-alt"></i> Refresh Status
+                        </button>
+                    </div>
+                    <p style="margin-bottom: 25px; color: #5a5766;">Check the real-time status of your NGO registration and submitted requirements.</p>
                     
                     <h3 style="margin-bottom: 15px; color: #3f3d56;">NGO Registration Status</h3>
+                    <div id="registrationLoading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading registration status...</p>
+                    </div>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -778,6 +822,7 @@
                                 <th>Registration No.</th>
                                 <th>Submitted Date</th>
                                 <th>Status</th>
+                                <th>Admin Notes</th>
                             </tr>
                         </thead>
                         <tbody id="registrationStatusBody">
@@ -786,18 +831,44 @@
                     </table>
                     
                     <h3 style="margin-top: 30px; margin-bottom: 15px; color: #3f3d56;">Requirements Status</h3>
+                    <div id="requirementsLoading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading requirements status...</p>
+                    </div>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>Requirement Title</th>
                                 <th>Category</th>
+                                <th>Quantity</th>
                                 <th>Urgency</th>
                                 <th>Submitted Date</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Admin Notes</th>
                             </tr>
                         </thead>
                         <tbody id="requirementsStatusBody">
+                            <!-- Will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+
+                    <h3 style="margin-top: 30px; margin-bottom: 15px; color: #3f3d56;">Donations Received</h3>
+                    <div id="donationsLoading" class="loading">
+                        <i class="fas fa-spinner fa-spin"></i>
+                        <p>Loading donations data...</p>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Donor Name</th>
+                                <th>Item Description</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Donation Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donationsStatusBody">
                             <!-- Will be populated by JavaScript -->
                         </tbody>
                     </table>
@@ -825,6 +896,169 @@
     </div>
 
     <script>
+        // Load REAL-TIME data from backend
+        async function loadRealTimeData() {
+            await loadRegistrationStatus();
+            await loadRequirementsStatus();
+            await loadDonationsStatus();
+        }
+
+        // Load registration status from backend
+        async function loadRegistrationStatus() {
+            const loadingElement = document.getElementById('registrationLoading');
+            const tableBody = document.getElementById('registrationStatusBody');
+            
+            try {
+                loadingElement.style.display = 'block';
+                tableBody.innerHTML = '';
+                
+                const response = await fetch('/api/ngo/registrations');
+                const registrations = await response.json();
+                
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = '';
+                
+                if (registrations.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; color: #888; padding: 30px;">
+                                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                                No registration found. Please register your NGO first.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                registrations.forEach(reg => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${reg.name}</td>
+                        <td>${reg.registration_number}</td>
+                        <td>${new Date(reg.created_at).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${reg.status}">${reg.status.charAt(0).toUpperCase() + reg.status.slice(1)}</span></td>
+                        <td>${reg.admin_notes || 'No notes'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading registration status:', error);
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #f44336; padding: 20px;">
+                            <i class="fas fa-exclamation-triangle"></i> Error loading data
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Load requirements status from backend
+        async function loadRequirementsStatus() {
+            const loadingElement = document.getElementById('requirementsLoading');
+            const tableBody = document.getElementById('requirementsStatusBody');
+            
+            try {
+                loadingElement.style.display = 'block';
+                tableBody.innerHTML = '';
+                
+                const response = await fetch('/api/ngo/requirements');
+                const requirements = await response.json();
+                
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = '';
+                
+                if (requirements.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" style="text-align: center; color: #888; padding: 30px;">
+                                <i class="fas fa-list" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                                No requirements submitted yet.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                requirements.forEach(req => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${req.title}</td>
+                        <td>${req.category.charAt(0).toUpperCase() + req.category.slice(1)}</td>
+                        <td>${req.quantity}</td>
+                        <td>${req.urgency.charAt(0).toUpperCase() + req.urgency.slice(1)}</td>
+                        <td>${new Date(req.created_at).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${req.status}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span></td>
+                        <td>${req.admin_notes || 'No notes'}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading requirements status:', error);
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; color: #f44336; padding: 20px;">
+                            <i class="fas fa-exclamation-triangle"></i> Error loading data
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Load donations status from backend
+        async function loadDonationsStatus() {
+            const loadingElement = document.getElementById('donationsLoading');
+            const tableBody = document.getElementById('donationsStatusBody');
+            
+            try {
+                loadingElement.style.display = 'block';
+                tableBody.innerHTML = '';
+                
+                const response = await fetch('/api/ngo/donations');
+                const donations = await response.json();
+                
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = '';
+                
+                if (donations.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center; color: #888; padding: 30px;">
+                                <i class="fas fa-gift" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
+                                No donations received yet.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                donations.forEach(donation => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${donation.full_name}</td>
+                        <td>${donation.item_description}</td>
+                        <td>${donation.category || 'General'}</td>
+                        <td>${donation.quantity || 1}</td>
+                        <td>${new Date(donation.created_at).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${donation.status}">${donation.status.charAt(0).toUpperCase() + donation.status.slice(1)}</span></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error loading donations status:', error);
+                loadingElement.style.display = 'none';
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #f44336; padding: 20px;">
+                            <i class="fas fa-exclamation-triangle"></i> Error loading data
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
         // Tab switching functionality
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', function() {
@@ -838,6 +1072,11 @@
                 // Show corresponding content
                 const tabId = this.getAttribute('data-tab');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // Load real data when status tab is clicked
+                if (tabId === 'status') {
+                    loadRealTimeData();
+                }
             });
         });
 
@@ -886,8 +1125,6 @@
                     document.getElementById('successMessageText').textContent = result.message;
                     document.getElementById('successModal').style.display = 'flex';
                     
-                    // Add to registration status table
-                    addRegistrationToStatusTable();
                     resetRegistrationForm();
                 } else {
                     alert('Failed to submit registration: ' + result.message);
@@ -918,7 +1155,6 @@
                     document.getElementById('successMessageText').textContent = result.message;
                     document.getElementById('successModal').style.display = 'flex';
                     
-                    addRequirementToStatusTable();
                     resetRequirementForm();
                 } else {
                     alert('Failed to submit requirement: ' + result.message);
@@ -942,55 +1178,6 @@
         // Modal functions
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
-        }
-
-        // Status table management
-        function addRegistrationToStatusTable() {
-            const ngoName = document.getElementById('ngoName').value;
-            const registrationNumber = document.getElementById('registrationNumber').value;
-            const today = new Date().toISOString().split('T')[0];
-            
-            const tableBody = document.getElementById('registrationStatusBody');
-            const row = document.createElement('tr');
-            
-            row.innerHTML = `
-                <td>${ngoName}</td>
-                <td>${registrationNumber}</td>
-                <td>${today}</td>
-                <td><span class="status-badge status-pending">Pending</span></td>
-            `;
-            
-            tableBody.appendChild(row);
-        }
-
-        function addRequirementToStatusTable() {
-            const title = document.getElementById('requirementTitle').value;
-            const category = document.getElementById('requirementCategory').value;
-            const urgency = document.getElementById('urgency').value;
-            const today = new Date().toISOString().split('T')[0];
-            
-            const tableBody = document.getElementById('requirementsStatusBody');
-            const row = document.createElement('tr');
-            
-            row.innerHTML = `
-                <td>${title}</td>
-                <td>${category.charAt(0).toUpperCase() + category.slice(1)}</td>
-                <td>${urgency.charAt(0).toUpperCase() + urgency.slice(1)}</td>
-                <td>${today}</td>
-                <td><span class="status-badge status-pending">Pending</span></td>
-                <td>
-                    <div class="action-buttons">
-                        <button class="action-btn edit-btn">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete-btn">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </td>
-            `;
-            
-            tableBody.appendChild(row);
         }
 
         // Initialize when page loads
